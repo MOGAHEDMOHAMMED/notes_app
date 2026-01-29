@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/my_app_colors.dart';
-import 'package:my_flutter_project/settings_page.dart';
+import 'package:my_flutter_project/views/screens/archived_notes_screen.dart';
+import 'package:my_flutter_project/views/screens/settings_screen.dart';
+
 
 // ignore: must_be_immutable
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
-
-  var clrBaseBlack = const Color.fromARGB(255, 46, 48, 52);
-  var clrBaseWhite1 = const Color.fromARGB(255, 224, 252, 254);
-  var clrBaseWhite2 = const Color.fromARGB(255, 237, 231, 237);
   var sizeb1 = SizedBox(width: 20);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {final theme = Theme.of(context); 
+    final colors = theme.colorScheme;
     return Drawer(
       width: MediaQuery.of(context).size.width / 1.4,
-      backgroundColor: MyAppColors.clrBaseAppColor,
+      backgroundColor: colors.surface,
       child: ListView(
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.only(bottom: 10),
         children: [
           SizedBox(height: 10),
           DrawerHeader(
-            decoration: BoxDecoration(color: MyAppColors.clrBaseAppColor),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -32,7 +29,7 @@ class AppDrawer extends StatelessWidget {
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Tahoma",
-                    color: clrBaseBlack,
+                    color: colors.primary,
                   ),
                 ),
                 SizedBox(height: 10),
@@ -41,7 +38,7 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.lightbulb_outline,
-                      color: MyAppColors.clrBaseIconColor,
+                      color: colors.surface,
                     ),
                     Text(
                       "ملاحظات",
@@ -59,7 +56,7 @@ class AppDrawer extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.notifications_outlined,
-                      color: MyAppColors.clrBaseIconColor,
+                      color: colors.surface,
                     ),
                     Text(
                       "رسائل التذكير",
@@ -78,11 +75,11 @@ class AppDrawer extends StatelessWidget {
             title: Text("التصنيفات"),
             leading: Icon(Icons.label_outline),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: Colors.amber[100],
+            tileColor: colors.surface,
             onTap: () {
               Navigator.of(
                 context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
             iconColor: Colors.blue,
           ),
@@ -91,52 +88,52 @@ class AppDrawer extends StatelessWidget {
             title: Text("الأرشيف"),
             leading: Icon(Icons.archive_outlined),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: Colors.amber[100],
+            tileColor: colors.surface,
             onTap: () {
               Navigator.of(
                 context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              ).push(MaterialPageRoute(builder: (context) => ArchivedNotesScreen()));
             },
-            iconColor: Colors.blue,
+            iconColor: colors.primary,
           ),
           SizedBox(height: 10),
           ListTile(
             title: Text("المهملات"),
             leading: Icon(Icons.delete_outline),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: Colors.amber[100],
+            tileColor: colors.surface,
             onTap: () {
               Navigator.of(
                 context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
-            iconColor: Colors.blue,
+            iconColor: colors.primary,
           ),
           SizedBox(height: 10),
           ListTile(
             title: Text("الأعدادت"),
             leading: Icon(Icons.settings_outlined),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: Colors.amber[100],
+            tileColor: colors.surface,
             onTap: () {
               Navigator.of(
                 context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
-            iconColor: Colors.blue,
+            iconColor: colors.primary,
           ),
           SizedBox(height: 10),
           ListTile(
             title: Text("المساعدة والملاحظة"),
             leading: Icon(Icons.home),
             trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: Colors.amber[100],
+            tileColor: colors.surface,
             onTap: () {
               Navigator.of(
                 context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
-            iconColor: Colors.blue,
+            iconColor: colors.primary,
           ),
         ],
       ),

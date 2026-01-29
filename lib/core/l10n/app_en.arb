@@ -1,0 +1,12 @@
+{
+    "appTitle": "My Notes",
+    "addNote": "Add Note",
+    "editNote": "Edit Note",
+    "delete": "Delete",
+    "save": "Save",
+    "titleHint": "Title",
+    "contentHint": "Write your note here...",
+    "loginGoogle": "Sign in with Google",
+    "loginFailed": "Login Failed",
+    "requiredField": "This field is required"
+}

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/my_app_colors.dart';
 
 class NewNote extends StatelessWidget {
   final String _noteTitle;
@@ -8,11 +7,13 @@ class NewNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colors = theme.colorScheme;
     return ListTile(
       trailing: Icon(Icons.abc),
       title: Text(
         _noteTitle,
-        style: TextStyle(color: MyAppColors.clrNegativeAppColor, fontSize: 20),
+        style: TextStyle(color: colors.primary, fontSize: 20),
       ),
     );
   }

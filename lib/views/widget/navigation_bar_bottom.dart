@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/main.dart';
-import 'package:my_flutter_project/settings_page.dart';
+import 'package:my_flutter_project/views/screens/settings_screen.dart';
 
-import '../my_app_colors.dart';
 
 class NavigationBarBottom extends StatelessWidget {
   const NavigationBarBottom({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); 
+    final colors = theme.colorScheme;
     return BottomNavigationBar(
-      backgroundColor: MyAppColors.blueBase,
+      backgroundColor: colors.primary,
       items: [
         BottomNavigationBarItem(
           icon: IconButton(
-            focusColor: Colors.amber,
+            focusColor: colors.surface,
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -31,7 +32,7 @@ class NavigationBarBottom extends StatelessWidget {
             },
             icon: Icon(
               Icons.front_hand_outlined,
-              color: MyAppColors.clrNegativeAppColor,
+              color: colors.surface,
               size: 30,
             ),
           ),
@@ -41,11 +42,11 @@ class NavigationBarBottom extends StatelessWidget {
           icon: IconButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SettingsPage()),
+              MaterialPageRoute(builder: (context) => SettingsScreen()),
             ),
             icon: Icon(
               Icons.menu_book_outlined,
-              color: MyAppColors.clrNegativeAppColor,
+              color: colors.surface,
               size: 30,
             ),
           ),
@@ -61,7 +62,7 @@ class NavigationBarBottom extends StatelessWidget {
             },
             icon: Icon(
               Icons.home,
-              color: MyAppColors.clrNegativeAppColor,
+              color: colors.surface,
               size: 30,
             ),
           ),

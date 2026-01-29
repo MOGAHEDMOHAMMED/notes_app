@@ -1,0 +1,12 @@
+{
+    "appTitle": "مذكراتي",
+    "addNote": "إضافة ملاحظة",
+    "editNote": "تعديل الملاحظة",
+    "delete": "حذف",
+    "save": "حفظ",
+    "titleHint": "العنوان",
+    "contentHint": "اكتب ملاحظتك هنا...",
+    "loginGoogle": "تسجيل الدخول بجوجل",
+    "loginFailed": "فشل تسجيل الدخول",
+    "requiredField": "هذا الحقل مطلوب"
+}
