@@ -122,6 +122,12 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get delete;
 
+  /// No description provided for @newNote.
+  ///
+  /// In en, this message translates to:
+  /// **'New Note'**
+  String get newNote;
+
   /// No description provided for @save.
   ///
   /// In en, this message translates to:
@@ -140,12 +146,6 @@ abstract class AppLocalizations {
   /// **'Write your note here...'**
   String get contentHint;
 
-  /// No description provided for @loginGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with Google'**
-  String get loginGoogle;
-
   /// No description provided for @loginFailed.
   ///
   /// In en, this message translates to:
@@ -157,6 +157,318 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This field is required'**
   String get requiredField;
+
+  /// No description provided for @loginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get loginTitle;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailLabel;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @loginButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get loginButton;
+
+  /// No description provided for @googleButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get googleButton;
+
+  /// No description provided for @noAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? Sign Up'**
+  String get noAccount;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get errorTitle;
+
+  /// No description provided for @okButton.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get okButton;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// No description provided for @createAcountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Acount'**
+  String get createAcountTitle;
+
+  /// No description provided for @fullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get fullName;
+
+  /// No description provided for @createButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createButton;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Mode'**
+  String get mode;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'عربي'**
+  String get language;
+
+  /// No description provided for @withOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No Title'**
+  String get withOutTitle;
+
+  /// No description provided for @noDeletedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no notes in Recycle Bin'**
+  String get noDeletedNote;
+
+  /// No description provided for @noArchivedNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No archived notes'**
+  String get noArchivedNotes;
+
+  /// No description provided for @noActiveNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No Notes'**
+  String get noActiveNotes;
+
+  /// No description provided for @activeNotesAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'My Notes'**
+  String get activeNotesAppBar;
+
+  /// No description provided for @archivedNotesAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get archivedNotesAppBar;
+
+  /// No description provided for @deletedNoteAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Recycle Bin'**
+  String get deletedNoteAppBar;
+
+  /// No description provided for @ignoreNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'The empty note was ignored'**
+  String get ignoreNotes;
+
+  /// No description provided for @saveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note saved'**
+  String get saveNote;
+
+  /// No description provided for @updateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note was updated'**
+  String get updateNote;
+
+  /// No description provided for @archivedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'شrchived Success'**
+  String get archivedSuccess;
+
+  /// No description provided for @deletedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted Success'**
+  String get deletedSuccess;
+
+  /// No description provided for @moveToArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Move To Archive'**
+  String get moveToArchived;
+
+  /// No description provided for @moveToRecycleBin.
+  ///
+  /// In en, this message translates to:
+  /// **'Move To Recycle Bin'**
+  String get moveToRecycleBin;
+
+  /// No description provided for @shareNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get shareNote;
+
+  /// No description provided for @duplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get duplicate;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'categories'**
+  String get category;
+
+  /// No description provided for @lastUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Update'**
+  String get lastUpdate;
+
+  /// No description provided for @addCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Category'**
+  String get addCategory;
+
+  /// No description provided for @deleteForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Forever'**
+  String get deleteForever;
+
+  /// No description provided for @categoryNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Category Name'**
+  String get categoryNameHint;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @editCategoriesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Categories'**
+  String get editCategoriesTitle;
+
+  /// No description provided for @update.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get update;
+
+  /// No description provided for @setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get setting;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Mode'**
+  String get darkMode;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'LogOut'**
+  String get logout;
+
+  /// No description provided for @aboutApp.
+  ///
+  /// In en, this message translates to:
+  /// **'About App'**
+  String get aboutApp;
+
+  /// No description provided for @app.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get app;
+
+  /// No description provided for @notesManagment.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes Managment'**
+  String get notesManagment;
+
+  /// No description provided for @welcomeback.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get welcomeback;
+
+  /// No description provided for @devlopment.
+  ///
+  /// In en, this message translates to:
+  /// **'Under Devlopment'**
+  String get devlopment;
+
+  /// No description provided for @availableCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Categories'**
+  String get availableCategories;
+
+  /// No description provided for @noCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'With out Category'**
+  String get noCategory;
+
+  /// No description provided for @moveFromArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Move From Archive'**
+  String get moveFromArchive;
 }
 
 class _AppLocalizationsDelegate

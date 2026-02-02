@@ -10,6 +10,8 @@ class NoteModel {
   final String? categoryName;
   final int? categoryColor;
 
+  final String status;
+
   NoteModel({
     required this.id,
     required this.title,
@@ -20,6 +22,7 @@ class NoteModel {
     this.categoryId,
     this.categoryName,
     this.categoryColor,
+    this.status = "active",
   });
 
   factory NoteModel.fromMap(Map<String, dynamic> map, String docId) {
@@ -35,6 +38,7 @@ class NoteModel {
       categoryId: map['categoryId'],
       categoryName: map['categoryName'],
       categoryColor: map['categoryColor'],
+      status: map['status'] ?? "active",
     );
   }
 
@@ -43,11 +47,12 @@ class NoteModel {
       'title': title,
       'content': content,
       'createdAt': createdAt.toIso8601String(),
-      'lastUpdate': lastUpdate?.toIso8601String(), // حفظ lastUpdate
+      'lastUpdate': lastUpdate?.toIso8601String(), 
       'userId': userId,
       'categoryId': categoryId,
       'categoryName': categoryName,
       'categoryColor': categoryColor,
+      'status': status,
     };
   }
 }

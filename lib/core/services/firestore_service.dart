@@ -26,7 +26,7 @@ class FirestoreService {
           .doc(note.id)
           .update(note.toMap());
     } catch (e) {
-      print("Error updating note: $e");
+      rethrow;
     }
   }
 
@@ -53,10 +53,10 @@ class FirestoreService {
         .delete();
   }
 
-  Future<void> addCategory(String name, int color, String userId) async {
+  Future<void> addCategory(CategoryModel cat, String userId) async {
     await _db.collection('users').doc(userId).collection('categories').add({
-      'name': name,
-      'color': color,
+      'name': cat.name,
+      'color': cat.color,
     });
   }
 

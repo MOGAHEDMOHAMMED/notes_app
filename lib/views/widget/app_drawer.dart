@@ -1,142 +1,340 @@
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/views/screens/archived_notes_screen.dart';
-import 'package:my_flutter_project/views/screens/settings_screen.dart';
+import 'package:my_flutter_project/auth_wrapper.dart';
+import 'package:provider/provider.dart';
+import '../../core/l10n/app_localizations.dart';
+import '../../core/routes/app_routes.dart';
+import '../../providers/notes_provider.dart';
+import '../../providers/auth_provider.dart';
 
-
-// ignore: must_be_immutable
 class AppDrawer extends StatelessWidget {
-  AppDrawer({super.key});
-  var sizeb1 = SizedBox(width: 20);
+  const AppDrawer({super.key});
+
   @override
-  Widget build(BuildContext context) {final theme = Theme.of(context); 
-    final colors = theme.colorScheme;
+  Widget build(BuildContext context) {
+    final categories = context.watch<NotesProvider>().categories;
+    final tr = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Drawer(
-      width: MediaQuery.of(context).size.width / 1.4,
-      backgroundColor: colors.surface,
-      child: ListView(
-        physics: NeverScrollableScrollPhysics(),
-        padding: EdgeInsets.only(bottom: 10),
+      width: MediaQuery.of(context).size.width * 0.75,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Column(
         children: [
-          SizedBox(height: 10),
-          DrawerHeader(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+          _buildFancyHeader(context, tr.appTitle),
+
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               children: [
-                // SizedBox(width:-20),
-                Text(
-                  "Google Keep",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Tahoma",
-                    color: colors.primary,
+                _buildSectionTitle(context, tr.category),
+                Container(
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.grey[800]!.withOpacity(0.5)
+                        : Colors.grey[100],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Theme(
+                    data: Theme.of(
+                      context,
+                    ).copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      leading: _buildIconContainer(
+                        Icons.category_rounded,
+                        Colors.blue,
+                      ),
+                      title: Text(
+                        tr.category,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      childrenPadding: EdgeInsets.zero,
+                      children: [
+                        _buildSubTile(
+                          context,
+                          title: tr.update,
+                          icon: Icons.edit_rounded,
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            AppRoutes.editCategoriesScreen,
+                          ),
+                        ),
+                        ...categories.map(
+                          (cat) => _buildSubTile(
+                            context,
+                            title: cat.name,
+                            icon: Icons.label_outline,
+                            iconColor: Color(cat.color),
+                            isCategory: true,
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  spacing: 10,
-                  children: [
-                    Icon(
-                      Icons.lightbulb_outline,
-                      color: colors.surface,
-                    ),
-                    Text(
-                      "ملاحظات",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Tahoma",
-                      ),
-                    ),
-                  ],
+
+                const SizedBox(height: 20),
+
+                _buildSectionTitle(context, tr.notesManagment),
+                _buildDrawerItem(
+                  context,
+                  title: tr.activeNotesAppBar,
+                  icon: Icons.note_alt_outlined,
+                  color: Colors.orange,
+                  onTap: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.activeNotesScreen,
+                  ),
                 ),
-                SizedBox(height: 10),
-                Row(
-                  spacing: 10,
-                  children: [
-                    Icon(
-                      Icons.notifications_outlined,
-                      color: colors.surface,
-                    ),
-                    Text(
-                      "رسائل التذكير",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "Tahoma",
-                      ),
-                    ),
-                  ],
+                _buildDrawerItem(
+                  context,
+                  title: tr.archivedNotesAppBar,
+                  icon: Icons.archive_rounded,
+                  color: Colors.orange,
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.archivedNotes),
+                ),
+                const SizedBox(height: 10),
+                _buildDrawerItem(
+                  context,
+                  title: tr.deletedNoteAppBar,
+                  icon: Icons.delete_outline_rounded,
+                  color: Colors.redAccent,
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.deletedNotesScreen,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                _buildSectionTitle(context, tr.app),
+                _buildDrawerItem(
+                  context,
+                  title: tr.setting,
+                  icon: Icons.settings_rounded,
+                  color: Colors.teal,
+                  onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
+                ),
+                const SizedBox(height: 10),
+                _buildDrawerItem(
+                  context,
+                  title: tr.aboutApp,
+                  icon: Icons.info_outline_rounded,
+                  color: Colors.purple,
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: Colors.grey,
+                  ),
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.aboutAppScreen),
                 ),
               ],
             ),
           ),
-          ListTile(
-            title: Text("التصنيفات"),
-            leading: Icon(Icons.label_outline),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: colors.surface,
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
-            },
-            iconColor: Colors.blue,
-          ),
-          SizedBox(height: 10),
-          ListTile(
-            title: Text("الأرشيف"),
-            leading: Icon(Icons.archive_outlined),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: colors.surface,
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => ArchivedNotesScreen()));
-            },
-            iconColor: colors.primary,
-          ),
-          SizedBox(height: 10),
-          ListTile(
-            title: Text("المهملات"),
-            leading: Icon(Icons.delete_outline),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: colors.surface,
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
-            },
-            iconColor: colors.primary,
-          ),
-          SizedBox(height: 10),
-          ListTile(
-            title: Text("الأعدادت"),
-            leading: Icon(Icons.settings_outlined),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: colors.surface,
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
-            },
-            iconColor: colors.primary,
-          ),
-          SizedBox(height: 10),
-          ListTile(
-            title: Text("المساعدة والملاحظة"),
-            leading: Icon(Icons.home),
-            trailing: Icon(Icons.arrow_forward_ios_outlined),
-            tileColor: colors.surface,
-            onTap: () {
-              Navigator.of(
-                context,
-              ).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
-            },
-            iconColor: colors.primary,
+
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: isDark ? Colors.black12 : Colors.grey[50],
+              border: Border(
+                top: BorderSide(color: Colors.grey.withOpacity(0.2)),
+              ),
+            ),
+            child: Column(
+              children: [
+                _buildDrawerItem(
+                  context,
+                  title: tr.logout,
+                  icon: Icons.logout_rounded,
+                  color: Colors.red,
+                  isLogout: true,
+                  onTap: () async {
+                    await context.read<AuthProvider>().signOut();
+                    AuthManager.logout();
+                    if (context.mounted) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRoutes.loginUser,
+                        (route) => false,
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "v1.0.0",
+                  style: TextStyle(color: Colors.grey[400], fontSize: 12),
+                ),
+              ],
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildFancyHeader(BuildContext context, String appName) {
+    final User? user = context.read<AuthProvider>().user;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.only(top: 50, bottom: 20, left: 20, right: 20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.primary,
+            Theme.of(context).colorScheme.tertiary,
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              shape: BoxShape.circle,
+            ),
+            child: CircleAvatar(
+              radius: 35,
+              backgroundColor: Colors.white,
+              backgroundImage: user?.photoURL != null
+                  ? NetworkImage(user!.photoURL!)
+                  : null,
+              child: user?.photoURL == null
+                  ? const Icon(
+                      Icons.person_rounded,
+                      size: 40,
+                      color: Colors.grey,
+                    )
+                  : null,
+            ),
+          ),
+          const SizedBox(height: 15),
+          Text(
+            appName,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Tahoma",
+            ),
+          ),
+
+          Text(
+            "${AppLocalizations.of(context)!.welcomeback}: ${user!.displayName}",
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.8),
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(BuildContext context, String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: Theme.of(context).hintColor,
+          fontSize: 12,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDrawerItem(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+    Widget? trailing,
+    bool isLogout = false,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(15),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          decoration: BoxDecoration(
+            color: isLogout ? Colors.red.withOpacity(0.1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            children: [
+              _buildIconContainer(icon, color),
+              const SizedBox(width: 15),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                    color: isLogout
+                        ? Colors.red
+                        : Theme.of(context).textTheme.bodyLarge?.color,
+                  ),
+                ),
+              ),
+              if (trailing != null) trailing,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubTile(
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    Color? iconColor,
+    required VoidCallback onTap,
+    bool isCategory = false,
+  }) {
+    return ListTile(
+      dense: true,
+      contentPadding: const EdgeInsets.only(left: 60, right: 20),
+      leading: isCategory
+          ? Icon(icon, size: 12, color: Colors.amberAccent)
+          : Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
+      title: Text(title, style: const TextStyle(fontSize: 14)),
+      onTap: onTap,
+    );
+  }
+
+  Widget _buildIconContainer(IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Icon(icon, color: color, size: 22),
     );
   }
 }

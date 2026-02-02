@@ -1,95 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 // import 'package:get/get.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
+import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/managment_some_state.dart';
+import '../widget/app_drawer.dart';
 
 // ignore: must_be_immutable
 class ArchivedNotesScreen extends StatelessWidget {
   ArchivedNotesScreen({super.key});
   TextEditingController textField = TextEditingController();
+  int grid = 2;
   @override
   Widget build(BuildContext context) {
     final notesController = context.watch<NotesProvider>();
-    final notes = notesController.notes;
-    return notes.isEmpty
-        ? Center(child: Text("لا توجد ملاحظات مؤرشفة حالياً"))
-        : GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: notes.length,
-            itemBuilder: (context, index) {
-              var currntNote = notes[index];
+    final notes = notesController.archivedNotes;
+    final tr = AppLocalizations.of(context)!;
 
-              return Card(
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(15),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(builder: (context) => NoteDetails(index)),
-                    // );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          currntNote.title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Expanded(
-                          child: Text(
-                            currntNote.content,
-                            maxLines: 4,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                // context
-                                //   .read<NotesProvider>()
-                                //   .deleteNote(index);
-                              },
-                              icon: Icon(Icons.delete_forever_outlined),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                // context.read<NotesProvider>().toggleArchive(
-                                //     context
-                                //         .read<NotesProvider>()
-                                //         .getNoteAsModel(index),
-                                //   );
-                              },
-                              icon: Icon(Icons.unarchive_rounded),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.share_outlined),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(tr.archivedNotesAppBar),
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (context.read<ManagmentSomeState>().isGrid) {
+                context.read<ManagmentSomeState>().toggleGrid();
+              } else {
+                context.read<ManagmentSomeState>().toggleGrid();
+              }
             },
-          );
+            icon: Icon(
+              context.watch<ManagmentSomeState>().isGrid
+                  ? Icons.view_agenda_outlined
+                  : Icons.grid_view,
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
+      ),
+
+      drawer: AppDrawer(),
+
+      body: notes.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.note_add_outlined,
+                    size: 150,
+                    color: Colors.amberAccent.withOpacity(0.7),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(AppLocalizations.of(context)!.noArchivedNotes),
+                ],
+              ),
+            )
+          : NotesGridView(notes: notes),
+    );
   }
 }

@@ -43,7 +43,7 @@ class AuthService {
       );
       return credential.user;
     } catch (e) {
-      rethrow; 
+      rethrow;
     }
   }
 
@@ -60,9 +60,7 @@ class AuthService {
 
       if (credential.user != null) {
         await credential.user!.updateDisplayName(name);
-        await _saveUserToFirestore(
-          credential.user!,
-        ); 
+        await _saveUserToFirestore(credential.user!);
       }
 
       return credential.user;
