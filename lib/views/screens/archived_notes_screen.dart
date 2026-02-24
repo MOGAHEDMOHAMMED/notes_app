@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 // import 'package:get/get.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
+import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -44,20 +45,9 @@ class ArchivedNotesScreen extends StatelessWidget {
       drawer: AppDrawer(),
 
       body: notes.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.note_add_outlined,
-                    size: 150,
-                    color: Colors.amberAccent.withOpacity(0.7),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(AppLocalizations.of(context)!.noArchivedNotes),
-                ],
-              ),
+          ? CenterIfNotesEmpty(
+              icon: Icons.note_add_outlined,
+              message: AppLocalizations.of(context)!.noArchivedNotes,
             )
           : NotesGridView(notes: notes),
     );

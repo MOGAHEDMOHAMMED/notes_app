@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/l10n/app_localizations.dart';
 import '../../providers/language_provider.dart';
@@ -47,7 +48,9 @@ class SettingsScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Divider(
                             height: 1,
-                            color: theme.colorScheme.outlineVariant.withOpacity(0.5),
+                            color: theme.colorScheme.outlineVariant.withOpacity(
+                              0.5,
+                            ),
                           ),
                         ),
                         _buildThemeTile(theme, tr, themeProvider),
@@ -72,10 +75,7 @@ class SettingsScreen extends StatelessWidget {
           color: theme.colorScheme.outlineVariant.withOpacity(0.2),
         ),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: child,
-      ),
+      child: ClipRRect(borderRadius: BorderRadius.circular(24), child: child),
     );
   }
 
@@ -92,10 +92,7 @@ class SettingsScreen extends StatelessWidget {
           color: theme.colorScheme.primary.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Icon(
-          Icons.translate_outlined,
-          color: theme.colorScheme.primary,
-        ),
+        child: Icon(Icons.translate_outlined, color: theme.colorScheme.primary),
       ),
       title: Text(
         tr.language,
@@ -108,9 +105,7 @@ class SettingsScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: theme.colorScheme.outlineVariant,
-          ),
+          border: Border.all(color: theme.colorScheme.outlineVariant),
         ),
         child: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -122,14 +117,8 @@ class SettingsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             dropdownColor: theme.colorScheme.surfaceContainerHigh,
             items: const [
-              DropdownMenuItem(
-                value: 'ar',
-                child: Text('العربية'),
-              ),
-              DropdownMenuItem(
-                value: 'en',
-                child: Text('English'),
-              ),
+              DropdownMenuItem(value: 'ar', child: Text('العربية')),
+              DropdownMenuItem(value: 'en', child: Text('English')),
             ],
             onChanged: (value) {
               if (value != null) {
@@ -174,7 +163,9 @@ class SettingsScreen extends StatelessWidget {
                 ? Icons.dark_mode_rounded
                 : Icons.wb_sunny_rounded,
             key: ValueKey(themeProvider.isDarkMode ? 'dark' : 'light'),
-            color: themeProvider.isDarkMode ? Colors.indigoAccent : Colors.orange,
+            color: themeProvider.isDarkMode
+                ? Colors.indigoAccent
+                : Colors.orange,
           ),
         ),
       ),
@@ -187,17 +178,19 @@ class SettingsScreen extends StatelessWidget {
       trailing: Switch(
         value: themeProvider.isDarkMode,
         activeColor: theme.colorScheme.primary,
-        onChanged: (value) {
+        onChanged: (value) async {
           themeProvider.toggleTheme(themeProvider.isDarkMode);
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setBool('isDarkMode', themeProvider.isDarkMode);
         },
-        thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
-          (Set<WidgetState> states) {
-            if (states.contains(WidgetState.selected)) {
-              return const Icon(Icons.nightlight_round, size: 16);
-            }
-            return const Icon(Icons.wb_sunny, size: 16);
-          },
-        ),
+        thumbIcon: WidgetStateProperty.resolveWith<Icon?>((
+          Set<WidgetState> states,
+        ) {
+          if (states.contains(WidgetState.selected)) {
+            return const Icon(Icons.nightlight_round, size: 16);
+          }
+          return const Icon(Icons.wb_sunny, size: 16);
+        }),
       ),
     );
   }

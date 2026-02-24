@@ -60,5 +60,9 @@
     "devlopment":"Under Devlopment",
     "availableCategories":"Available Categories",
     "noCategory":"With out Category",
-    "moveFromArchive":"Move From Archive"
+    "moveFromArchive":"Move From Archive",
+    "noCategoryNotes":"Thes Category Not Have Notes Yet",
+    "deleteForeverSuccess":"Forever Deleted Successfully",
+    "unArchivedSuccess":"Un archived Note Successfully",
+    "recoveryNote":"Note retrieval"
 }

@@ -30,7 +30,6 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => ManagmentSomeState()),
         ChangeNotifierProvider(create: (_) => NotesProvider()),
-        ChangeNotifierProvider(create: (_) => ManagmentSomeState()),
       ],
       child: const MyApp(),
     ),
@@ -65,15 +64,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// ignore: must_be_immutable
-// class HomeScreen extends StatelessWidget {
-//   HomeScreen({super.key});
-//   TextEditingController mycontroller = TextEditingController();
-//   @override
-//   Widget build(BuildContext context) {
-//     return AuthWrapper();
-//   }
-// }
 
 class AppTheme {
   static const String fontFamily = 'Cairo';

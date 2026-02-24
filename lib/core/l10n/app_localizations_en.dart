@@ -193,4 +193,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get moveFromArchive => 'Move From Archive';
+
+  @override
+  String get noCategoryNotes => 'Thes Category Not Have Notes Yet';
+
+  @override
+  String get deleteForeverSuccess => 'Forever Deleted Successfully';
+
+  @override
+  String get unArchivedSuccess => 'Un archived Note Successfully';
+
+  @override
+  String get recoveryNote => 'Note retrieval';
 }

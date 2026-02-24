@@ -1,3 +1,4 @@
+import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,9 @@ class DeletedNotesScreen extends StatelessWidget {
     final notes = notesController.deletedNotes;
     final tr = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(tr.deletedNoteAppBar), actions: [
+      appBar: AppBar(
+        title: Text(tr.deletedNoteAppBar),
+        actions: [
           IconButton(
             onPressed: () {
               if (context.read<ManagmentSomeState>().isGrid) {
@@ -33,25 +36,15 @@ class DeletedNotesScreen extends StatelessWidget {
             ),
           ),
           SizedBox(width: 10),
-        ],),
+        ],
+      ),
 
       drawer: AppDrawer(),
 
       body: notes.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.note_add_outlined,
-                    size: 150,
-                    color: Colors.amberAccent.withOpacity(0.7),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(AppLocalizations.of(context)!.noDeletedNote),
-                ],
-              ),
+          ? CenterIfNotesEmpty(
+              icon: Icons.note_add_outlined,
+              message: AppLocalizations.of(context)!.noDeletedNote,
             )
           : NotesGridView(notes: notes),
     );

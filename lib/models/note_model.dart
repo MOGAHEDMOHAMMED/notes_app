@@ -5,6 +5,7 @@ class NoteModel {
   final DateTime createdAt;
   final DateTime? lastUpdate;
   final String userId;
+  final String color;
 
   final String? categoryId;
   final String? categoryName;
@@ -23,6 +24,7 @@ class NoteModel {
     this.categoryName,
     this.categoryColor,
     this.status = "active",
+     this.color="",
   });
 
   factory NoteModel.fromMap(Map<String, dynamic> map, String docId) {
@@ -47,7 +49,7 @@ class NoteModel {
       'title': title,
       'content': content,
       'createdAt': createdAt.toIso8601String(),
-      'lastUpdate': lastUpdate?.toIso8601String(), 
+      'lastUpdate': lastUpdate?.toIso8601String(),
       'userId': userId,
       'categoryId': categoryId,
       'categoryName': categoryName,

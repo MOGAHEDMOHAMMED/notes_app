@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/providers/managment_some_state.dart';
 import 'package:my_flutter_project/views/widget/app_drawer.dart';
+import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -42,24 +43,7 @@ class ActiveNoteScreen extends StatelessWidget {
       ),
       drawer: AppDrawer(),
       body: noNotes
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.edit_note_outlined,
-                    size: 100,
-                    color: Colors.amberAccent.withOpacity(0.7),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    tr.noActiveNotes,
-                    style: const TextStyle(fontSize: 18, color: Colors.grey),
-                  ),
-                ],
-              ),
-            )
+          ? CenterIfNotesEmpty(icon: Icons.edit_note, message: tr.noActiveNotes)
           : NotesGridView(notes: notes),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

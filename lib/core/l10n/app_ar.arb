@@ -61,5 +61,9 @@
     "devlopment":"قيد التطوير",
     "availableCategories":"التصنيفات المتوفرة",
     "noCategory":"بدون تصنيف",
-    "moveFromArchive":"نقل من الإرشيف"
+    "moveFromArchive":"نقل من الإرشيف",
+    "noCategoryNotes":"لا يوجد ملاحظات لهذا التصنيف",
+    "deleteForeverSuccess":"تم حذف الملاحظة بشكل نهائي",
+    "unArchivedSuccess":"تم نقل الملاحظة من الأرشيف",
+    "recoveryNote":"استرداد الملاحظة"
 }

@@ -193,4 +193,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get moveFromArchive => 'نقل من الإرشيف';
+
+  @override
+  String get noCategoryNotes => 'لا يوجد ملاحظات لهذا التصنيف';
+
+  @override
+  String get deleteForeverSuccess => 'تم حذف الملاحظة بشكل نهائي';
+
+  @override
+  String get unArchivedSuccess => 'تم نقل الملاحظة من الأرشيف';
+
+  @override
+  String get recoveryNote => 'استرداد الملاحظة';
 }

@@ -7,8 +7,6 @@ import '../models/note_model.dart';
 import '../models/category_model.dart';
 import '../core/services/firestore_service.dart';
 
-enum NoteStatuts { active, archived, deleted }
-
 class NotesProvider extends ChangeNotifier {
   final FirestoreService _service = FirestoreService();
   List<NoteModel> _notes = [];
@@ -60,6 +58,17 @@ class NotesProvider extends ChangeNotifier {
     });
   }
 
+  List<NoteModel> categoryNotes(String categoryName) {
+    List<NoteModel> catNotes = notes
+        .where(
+          (element) =>
+              (element.categoryName != null &&
+              element.categoryName == categoryName),
+        )
+        .toList();
+    return catNotes;
+  }
+
   void listenToCategory() {
     final user = FirebaseAuth.instance.currentUser;
 
@@ -103,6 +112,7 @@ class NotesProvider extends ChangeNotifier {
       categoryName: category?.name,
       categoryColor: category?.color,
       status: 'active',
+      color: '',
     );
 
     await _service.addNote(newNote);
@@ -133,6 +143,7 @@ class NotesProvider extends ChangeNotifier {
     String newTitle,
     String newContent, {
     CategoryModel? newCategory,
+    String? color,
   }) async {
     final updatedNote = NoteModel(
       id: oldNote.id,
@@ -145,6 +156,7 @@ class NotesProvider extends ChangeNotifier {
       categoryName: newCategory?.name ?? oldNote.categoryName,
       categoryColor: newCategory?.color ?? oldNote.categoryColor,
       status: oldNote.status,
+      color: color ?? oldNote.color,
     );
 
     await _service.updateNote(updatedNote);

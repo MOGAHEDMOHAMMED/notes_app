@@ -70,6 +70,8 @@ class AuthService {
   }
 
   Future<void> _saveUserToFirestore(User user) async {
+    
+    // String displayName;
     await _db.collection('users').doc(user.uid).set({
       'username': user.displayName ?? 'مستخدم',
       'email': user.email ?? '',

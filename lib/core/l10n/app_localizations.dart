@@ -469,6 +469,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Move From Archive'**
   String get moveFromArchive;
+
+  /// No description provided for @noCategoryNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Thes Category Not Have Notes Yet'**
+  String get noCategoryNotes;
+
+  /// No description provided for @deleteForeverSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Forever Deleted Successfully'**
+  String get deleteForeverSuccess;
+
+  /// No description provided for @unArchivedSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Un archived Note Successfully'**
+  String get unArchivedSuccess;
+
+  /// No description provided for @recoveryNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note retrieval'**
+  String get recoveryNote;
 }
 
 class _AppLocalizationsDelegate

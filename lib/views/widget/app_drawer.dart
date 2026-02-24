@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/auth_wrapper.dart';
+import 'package:my_flutter_project/views/screens/show_category_notes.dart';
 import 'package:provider/provider.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../../core/routes/app_routes.dart';
@@ -69,15 +72,31 @@ class AppDrawer extends StatelessWidget {
                           ),
                         ),
                         ...categories.map(
-                          (cat) => _buildSubTile(
-                            context,
-                            title: cat.name,
-                            icon: Icons.label_outline,
-                            iconColor: Color(cat.color),
-                            isCategory: true,
+                          (cat) => ListTile(
+                            dense: true,
+                            contentPadding: const EdgeInsets.only(
+                              left: 60,
+                              right: 20,
+                            ),
+                            leading: Icon(
+                              Icons.label_outline,
+                              size: 12,
+                              color: Colors.amberAccent,
+                            ),
+                            title: Text(
+                              cat.name,
+                              style: const TextStyle(fontSize: 14),
+                            ),
                             onTap: () {
-                              Navigator.pop(context);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShowCategoryNotes(categoryName: cat.name),
+                                ),
+                              );
                             },
+                            onLongPress: () {},
                           ),
                         ),
                       ],
@@ -87,24 +106,26 @@ class AppDrawer extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                _buildSectionTitle(context, tr.notesManagment),
-                _buildDrawerItem(
-                  context,
-                  title: tr.activeNotesAppBar,
-                  icon: Icons.note_alt_outlined,
-                  color: Colors.orange,
-                  onTap: () => Navigator.pushReplacementNamed(
-                    context,
-                    AppRoutes.activeNotesScreen,
-                  ),
-                ),
+                // _buildSectionTitle(context, tr.notesManagment),
+                // _buildDrawerItem(
+                //   context,
+                //   title: tr.activeNotesAppBar,
+                //   icon: Icons.note_alt_outlined,
+                //   color: Colors.orange,
+                //   onTap: () => Navigator.pushReplacementNamed(
+                //     context,
+                //     AppRoutes.activeNotesScreen,
+                //   ),
+                // ),
                 _buildDrawerItem(
                   context,
                   title: tr.archivedNotesAppBar,
                   icon: Icons.archive_rounded,
                   color: Colors.orange,
-                  onTap: () =>
-                      Navigator.pushNamed(context, AppRoutes.archivedNotes),
+                  onTap: () => Navigator.pushReplacementNamed(
+                    context,
+                    AppRoutes.archivedNotes,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 _buildDrawerItem(
@@ -112,7 +133,7 @@ class AppDrawer extends StatelessWidget {
                   title: tr.deletedNoteAppBar,
                   icon: Icons.delete_outline_rounded,
                   color: Colors.redAccent,
-                  onTap: () => Navigator.pushNamed(
+                  onTap: () => Navigator.pushReplacementNamed(
                     context,
                     AppRoutes.deletedNotesScreen,
                   ),
@@ -238,9 +259,9 @@ class AppDrawer extends StatelessWidget {
           ),
 
           Text(
-            "${AppLocalizations.of(context)!.welcomeback}: ${user!.displayName}",
+            "${AppLocalizations.of(context)!.welcomeback}: ${user!.displayName == '' ? user.email : user.displayName}",
             style: TextStyle(
-              color: Colors.white.withOpacity(0.8),
+              color: Color.fromRGBO(255, 255, 255, 0.8),
               fontSize: 14,
               fontWeight: FontWeight.bold,
             ),
