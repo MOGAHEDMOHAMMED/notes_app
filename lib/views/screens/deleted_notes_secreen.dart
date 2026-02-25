@@ -1,3 +1,4 @@
+import 'package:my_flutter_project/core/routes/app_routes.dart';
 import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,7 @@ class DeletedNotesScreen extends StatelessWidget {
         ],
       ),
 
-      drawer: AppDrawer(),
+      drawer: AppDrawer(currentScreen: AppRoutes.deletedNotesScreen),
 
       body: notes.isEmpty
           ? CenterIfNotesEmpty(

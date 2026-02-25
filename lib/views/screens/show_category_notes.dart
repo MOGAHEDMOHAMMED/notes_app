@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/core/routes/app_routes.dart';
 import 'package:my_flutter_project/views/widget/app_drawer.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +19,7 @@ class ShowCategoryNotes extends StatelessWidget {
     List<NoteModel> notes = noteProvider.categoryNotes(categoryName);
     return Scaffold(
       appBar: AppBar(title: Text(categoryName)),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(currentScreen: AppRoutes.showCategoryNotes),
       body: notes.isEmpty
           ? CenterIfNotesEmpty(
               icon: Icons.label_outline,

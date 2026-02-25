@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, must_be_immutable
 
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
@@ -11,8 +11,8 @@ import '../../providers/notes_provider.dart';
 import '../../providers/auth_provider.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
-
+  AppDrawer({super.key, required this.currentScreen});
+  String currentScreen;
   @override
   Widget build(BuildContext context) {
     final categories = context.watch<NotesProvider>().categories;
@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
                               left: 60,
                               right: 20,
                             ),
-                            leading: Icon(
+                            leading: const Icon(
                               Icons.label_outline,
                               size: 12,
                               color: Colors.amberAccent,
@@ -88,12 +88,13 @@ class AppDrawer extends StatelessWidget {
                               style: const TextStyle(fontSize: 14),
                             ),
                             onTap: () {
-                              Navigator.pushReplacement(
+                              Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       ShowCategoryNotes(categoryName: cat.name),
                                 ),
+                                (route) => route.isFirst,
                               );
                             },
                             onLongPress: () {},
@@ -106,40 +107,34 @@ class AppDrawer extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // _buildSectionTitle(context, tr.notesManagment),
-                // _buildDrawerItem(
-                //   context,
-                //   title: tr.activeNotesAppBar,
-                //   icon: Icons.note_alt_outlined,
-                //   color: Colors.orange,
-                //   onTap: () => Navigator.pushReplacementNamed(
-                //     context,
-                //     AppRoutes.activeNotesScreen,
-                //   ),
-                // ),
-                _buildDrawerItem(
-                  context,
-                  title: tr.archivedNotesAppBar,
-                  icon: Icons.archive_rounded,
-                  color: Colors.orange,
-                  onTap: () => Navigator.pushReplacementNamed(
+                if (currentScreen != AppRoutes.archivedNotesScreen) ...[
+                  _buildDrawerItem(
                     context,
-                    AppRoutes.archivedNotes,
+                    title: tr.archivedNotesAppBar,
+                    icon: Icons.archive_rounded,
+                    color: Colors.orange,
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.archivedNotesScreen,
+                      (route) => route.isFirst,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                _buildDrawerItem(
-                  context,
-                  title: tr.deletedNoteAppBar,
-                  icon: Icons.delete_outline_rounded,
-                  color: Colors.redAccent,
-                  onTap: () => Navigator.pushReplacementNamed(
+                  const SizedBox(height: 10),
+                ],
+                if (currentScreen != AppRoutes.deletedNotesScreen) ...[
+                  _buildDrawerItem(
                     context,
-                    AppRoutes.deletedNotesScreen,
+                    title: tr.deletedNoteAppBar,
+                    icon: Icons.delete_outline_rounded,
+                    color: Colors.redAccent,
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      AppRoutes.deletedNotesScreen,
+                      (route) => route.isFirst,
+                    ),
                   ),
-                ),
-
-                const SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                ],
 
                 _buildSectionTitle(context, tr.app),
                 _buildDrawerItem(
@@ -147,7 +142,8 @@ class AppDrawer extends StatelessWidget {
                   title: tr.setting,
                   icon: Icons.settings_rounded,
                   color: Colors.teal,
-                  onTap: () => Navigator.pushNamed(context, AppRoutes.settings),
+                  onTap: () =>
+                      Navigator.pushNamed(context, AppRoutes.settingsScreen),
                 ),
                 const SizedBox(height: 10),
                 _buildDrawerItem(
@@ -162,6 +158,22 @@ class AppDrawer extends StatelessWidget {
                   ),
                   onTap: () =>
                       Navigator.pushNamed(context, AppRoutes.aboutAppScreen),
+                ),
+                const SizedBox(height: 10),
+                _buildDrawerItem(
+                  context,
+                  title: tr.aboutDeveloper,
+                  icon: Icons.code_rounded,
+                  color: Colors.purple,
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14,
+                    color: Colors.grey,
+                  ),
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    AppRoutes.aboutDeveloperScreen,
+                  ),
                 ),
               ],
             ),
@@ -189,7 +201,7 @@ class AppDrawer extends StatelessWidget {
                     if (context.mounted) {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
-                        AppRoutes.loginUser,
+                        AppRoutes.loginUserScreen,
                         (route) => false,
                       );
                     }
@@ -257,10 +269,9 @@ class AppDrawer extends StatelessWidget {
               fontFamily: "Tahoma",
             ),
           ),
-
           Text(
-            "${AppLocalizations.of(context)!.welcomeback}: ${user!.displayName == '' ? user.email : user.displayName}",
-            style: TextStyle(
+            "${AppLocalizations.of(context)!.welcomeback}: ${user != null ? (user.displayName != null && user.displayName!.isNotEmpty ? user.displayName : user.email) : 'مستخدم'}",
+            style: const TextStyle(
               color: Color.fromRGBO(255, 255, 255, 0.8),
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -333,7 +344,6 @@ class AppDrawer extends StatelessWidget {
     BuildContext context, {
     required String title,
     required IconData icon,
-    Color? iconColor,
     required VoidCallback onTap,
     bool isCategory = false,
   }) {

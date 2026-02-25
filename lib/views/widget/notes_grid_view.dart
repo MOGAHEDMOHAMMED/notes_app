@@ -41,7 +41,7 @@ class NotesGridView extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(
             context,
-            AppRoutes.noteDetails,
+            AppRoutes.noteDetailsScreen,
             arguments: {'note': note, 'isNewNote': false},
           );
         },

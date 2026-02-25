@@ -167,7 +167,7 @@ abstract class AppLocalizations {
   /// No description provided for @emailLabel.
   ///
   /// In en, this message translates to:
-  /// **'Email Address'**
+  /// **'Email'**
   String get emailLabel;
 
   /// No description provided for @passwordLabel.
@@ -493,6 +493,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Note retrieval'**
   String get recoveryNote;
+
+  /// No description provided for @aboutDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'About Developer'**
+  String get aboutDeveloper;
+
+  /// No description provided for @jobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Software Developer | Flutter & Python'**
+  String get jobTitle;
+
+  /// No description provided for @aboutMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get aboutMeTitle;
+
+  /// No description provided for @aboutMeContent.
+  ///
+  /// In en, this message translates to:
+  /// **'A software developer specializing in creating high-performance mobile applications. My work reflects a strong commitment to writing clean code and delivering an exceptional user experience.'**
+  String get aboutMeContent;
+
+  /// No description provided for @contactInfoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Info'**
+  String get contactInfoTitle;
+
+  /// No description provided for @phoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phoneLabel;
+
+  /// No description provided for @locationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get locationLabel;
+
+  /// No description provided for @locationValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Sanaa, Yemen'**
+  String get locationValue;
+
+  /// No description provided for @skillsInterestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills & Interests'**
+  String get skillsInterestsTitle;
 }
 
 class _AppLocalizationsDelegate

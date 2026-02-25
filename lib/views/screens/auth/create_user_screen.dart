@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/auth_wrapper.dart';
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
@@ -129,7 +131,7 @@ class CreateUserScreen extends StatelessWidget {
                   const Divider(height: 40),
                   SizedBox(
                     width: 170,
-                    height: 50,
+                    height: 100,
                     child: ElevatedButton(
                       onPressed: () {
                         languageProvider.changeLanguage(

@@ -64,5 +64,15 @@
     "noCategoryNotes":"Thes Category Not Have Notes Yet",
     "deleteForeverSuccess":"Forever Deleted Successfully",
     "unArchivedSuccess":"Un archived Note Successfully",
-    "recoveryNote":"Note retrieval"
+    "recoveryNote":"Note retrieval",
+    "aboutDeveloper": "About Developer",
+    "jobTitle": "Software Developer | Flutter & Python",
+    "aboutMeTitle": "About Me",
+    "aboutMeContent": "A software developer specializing in creating high-performance mobile applications. My work reflects a strong commitment to writing clean code and delivering an exceptional user experience.",
+    "contactInfoTitle": "Contact Info",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "locationLabel": "Location",
+    "locationValue": "Sanaa, Yemen",
+    "skillsInterestsTitle": "Skills & Interests"
 }

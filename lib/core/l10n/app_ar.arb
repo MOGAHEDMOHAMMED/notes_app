@@ -65,5 +65,15 @@
     "noCategoryNotes":"لا يوجد ملاحظات لهذا التصنيف",
     "deleteForeverSuccess":"تم حذف الملاحظة بشكل نهائي",
     "unArchivedSuccess":"تم نقل الملاحظة من الأرشيف",
-    "recoveryNote":"استرداد الملاحظة"
+    "recoveryNote":"استرداد الملاحظة",
+    "aboutDeveloper": "عن المطور",
+    "jobTitle": "مطور برمجيات | فلاتر وبايثون",
+    "aboutMeTitle": "نبذة عني",
+    "aboutMeContent":"مطور برمجيات متخصص في إنشاء تطبيقات هواتف ذكية عالية الأداء. يعكس عملي التزاماً قوياً بكتابة كود نظيف وتقديم تجربة مستخدم استثنائية.",
+    "contactInfoTitle": "معلومات التواصل",
+    "emailLabel": "البريد الإلكتروني",
+    "phoneLabel": "الهاتف",
+    "locationLabel": "الموقع",
+    "locationValue": "صنعاء، اليمن",
+    "skillsInterestsTitle": "المهارات والاهتمامات"
 }

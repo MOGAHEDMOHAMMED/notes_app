@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
+import 'package:my_flutter_project/core/routes/app_routes.dart';
 // import 'package:get/get.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
@@ -42,7 +43,7 @@ class ArchivedNotesScreen extends StatelessWidget {
         ],
       ),
 
-      drawer: AppDrawer(),
+      drawer: AppDrawer(currentScreen: AppRoutes.archivedNotesScreen),
 
       body: notes.isEmpty
           ? CenterIfNotesEmpty(

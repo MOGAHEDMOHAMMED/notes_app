@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/providers/auth_provider.dart';
 import 'package:my_flutter_project/views/screens/active_notes_screen.dart';
+import 'package:provider/provider.dart';
 import 'views/screens/auth/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,11 +30,21 @@ class AuthWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: AuthManager.isLoggedIn,
-      builder: (context, isUserLoggedIn, child) {
-        return isUserLoggedIn ? const ActiveNoteScreen() : UserLoginScreen();
-      },
+    return ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: Consumer(
+        builder: (context, AuthProvider authProvider, child) {
+          return context.watch<AuthProvider>().isLoggedIn
+              ?  ActiveNoteScreen()
+              : UserLoginScreen();
+        },
+      ),
     );
+    // return ValueListenableBuilder<bool>(
+    //   valueListenable: AuthManager.isLoggedIn,
+    //   builder: (context, isUserLoggedIn, child) {
+    //     return isUserLoggedIn ? const ActiveNoteScreen() : UserLoginScreen();
+    //   },
+    // );
   }
 }

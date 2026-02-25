@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/auth_wrapper.dart';
 import 'package:my_flutter_project/providers/language_provider.dart';
@@ -20,9 +22,7 @@ class UserLoginScreen extends StatelessWidget {
     final authProvider = Provider.of<AuthProvider>(context);
     final tr = AppLocalizations.of(context)!;
     final languageProvider = Provider.of<LanguageProvider>(context);
-    final passwordVisibilityProvider = Provider.of<ManagmentSomeState>(
-      context,
-    );
+    final passwordVisibilityProvider = Provider.of<ManagmentSomeState>(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -108,16 +108,22 @@ class UserLoginScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () async {
-                        String? error = await authProvider.signIn(
-                          emailController.text.trim(),
-                          passwordController.text.trim(),
-                        );
+                        String? error =
+                            await Provider.of<AuthProvider>(
+                              context,
+                              listen: false,
+                            ).signIn(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                            );
+                        if (!context.mounted) return;
                         if (error != null) {
                           // ignore: use_build_context_synchronously
                           _showErrorDialog(context, error);
-                        } else {
-                          AuthManager.login();
+                          return;
                         }
+                        if (error == null) print("Login successful");
+                        AuthManager.login();
                       },
                       child: Text(
                         tr.loginButton,
@@ -131,7 +137,7 @@ class UserLoginScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, AppRoutes.createUser);
+                      Navigator.pushNamed(context, AppRoutes.createUserScreen);
                     },
                     child: Text(
                       tr.noAccount,

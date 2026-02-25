@@ -42,7 +42,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginTitle => 'Login';
 
   @override
-  String get emailLabel => 'Email Address';
+  String get emailLabel => 'Email';
 
   @override
   String get passwordLabel => 'Password';
@@ -205,4 +205,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recoveryNote => 'Note retrieval';
+
+  @override
+  String get aboutDeveloper => 'About Developer';
+
+  @override
+  String get jobTitle => 'Software Developer | Flutter & Python';
+
+  @override
+  String get aboutMeTitle => 'About Me';
+
+  @override
+  String get aboutMeContent =>
+      'A software developer specializing in creating high-performance mobile applications. My work reflects a strong commitment to writing clean code and delivering an exceptional user experience.';
+
+  @override
+  String get contactInfoTitle => 'Contact Info';
+
+  @override
+  String get phoneLabel => 'Phone';
+
+  @override
+  String get locationLabel => 'Location';
+
+  @override
+  String get locationValue => 'Sanaa, Yemen';
+
+  @override
+  String get skillsInterestsTitle => 'Skills & Interests';
 }

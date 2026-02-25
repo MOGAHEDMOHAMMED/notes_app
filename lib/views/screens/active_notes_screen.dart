@@ -41,7 +41,9 @@ class ActiveNoteScreen extends StatelessWidget {
           SizedBox(width: 10),
         ],
       ),
-      drawer: AppDrawer(),
+      drawer: AppDrawer(
+        currentScreen: ModalRoute.of(context)?.settings.name ?? '',
+      ),
       body: noNotes
           ? CenterIfNotesEmpty(icon: Icons.edit_note, message: tr.noActiveNotes)
           : NotesGridView(notes: notes),
@@ -51,7 +53,7 @@ class ActiveNoteScreen extends StatelessWidget {
           NoteModel? emptyNote = notesProvider.emptyNote();
           Navigator.pushNamed(
             context,
-            AppRoutes.noteDetails,
+            AppRoutes.noteDetailsScreen,
             arguments: {'note': emptyNote, 'isNewNote': true},
           );
         },

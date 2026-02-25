@@ -44,7 +44,7 @@ class HelperMethods extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${tr.lastUpdate} ${note.lastUpdate}",
+                  "${tr.lastUpdate} ${note.lastUpdate!.year}/${note.lastUpdate!.month}/${note.lastUpdate!.day}",
                   textAlign: TextAlign.start,
                 ),
                 const Divider(),

@@ -205,4 +205,32 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get recoveryNote => 'استرداد الملاحظة';
+
+  @override
+  String get aboutDeveloper => 'عن المطور';
+
+  @override
+  String get jobTitle => 'مطور برمجيات | فلاتر وبايثون';
+
+  @override
+  String get aboutMeTitle => 'نبذة عني';
+
+  @override
+  String get aboutMeContent =>
+      'مطور برمجيات متخصص في إنشاء تطبيقات هواتف ذكية عالية الأداء. يعكس عملي التزاماً قوياً بكتابة كود نظيف وتقديم تجربة مستخدم استثنائية.';
+
+  @override
+  String get contactInfoTitle => 'معلومات التواصل';
+
+  @override
+  String get phoneLabel => 'الهاتف';
+
+  @override
+  String get locationLabel => 'الموقع';
+
+  @override
+  String get locationValue => 'صنعاء، اليمن';
+
+  @override
+  String get skillsInterestsTitle => 'المهارات والاهتمامات';
 }

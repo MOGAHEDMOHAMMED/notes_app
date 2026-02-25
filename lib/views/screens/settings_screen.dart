@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,9 +122,10 @@ class SettingsScreen extends StatelessWidget {
               DropdownMenuItem(value: 'ar', child: Text('العربية')),
               DropdownMenuItem(value: 'en', child: Text('English')),
             ],
-            onChanged: (value) {
+            onChanged: (value) async{
               if (value != null) {
                 langProvider.changeLanguage(Locale(value));
+                
               }
             },
             style: theme.textTheme.bodyMedium?.copyWith(
