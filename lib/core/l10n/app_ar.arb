@@ -75,5 +75,9 @@
     "phoneLabel": "الهاتف",
     "locationLabel": "الموقع",
     "locationValue": "صنعاء، اليمن",
-    "skillsInterestsTitle": "المهارات والاهتمامات"
+    "skillsInterestsTitle": "المهارات والاهتمامات",
+    "emptyContentShare":"لا يمكنك مشاركة ملاحظة فارغة",
+    "sharedVia":"تمت مشاركة هذا النص من تطبيق دوّن",
+    "updateCategory":"تعديل تصنيف",
+    "confirm":"موافق"
 }

@@ -1,5 +1,6 @@
 import 'package:my_flutter_project/core/routes/app_routes.dart';
 import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
+import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,11 @@ class DeletedNotesScreen extends StatelessWidget {
               icon: Icons.note_add_outlined,
               message: AppLocalizations.of(context)!.noDeletedNote,
             )
-          : NotesGridView(notes: notes),
+          : NotesGridView(notesStatus: "deleted"),
+      floatingActionButton: HelperMethods.addNoteButton(
+        context,
+        status: "deleted",
+      ),
     );
   }
 }

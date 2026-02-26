@@ -1,9 +1,10 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/auth_wrapper.dart';
+
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 import 'package:my_flutter_project/providers/managment_some_state.dart';
+import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/auth_provider.dart' show AuthProvider;
 import '../../../providers/language_provider.dart';
@@ -114,9 +115,10 @@ class CreateUserScreen extends StatelessWidget {
                         );
                         if (error != null) {
                           // ignore: use_build_context_synchronously
-                          _showErrorDialog(context, error);
+                          HelperMethods.showErrorDialog(context, error);
                         } else {
-                          AuthManager.login();
+                          // login state already saved by AuthProvider
+                          if (context.mounted) Navigator.pop(context);
                         }
                       },
                       child: Text(
@@ -131,7 +133,7 @@ class CreateUserScreen extends StatelessWidget {
                   const Divider(height: 40),
                   SizedBox(
                     width: 170,
-                    height: 100,
+                    height: 60,
                     child: ElevatedButton(
                       onPressed: () {
                         languageProvider.changeLanguage(
@@ -193,25 +195,11 @@ class CreateUserScreen extends StatelessWidget {
               ? () {
                   Provider.of<ManagmentSomeState>(
                     context,
+                    listen: false,
                   ).toggleVisibility();
                 }
               : null,
         ),
-      ),
-    );
-  }
-
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(AppLocalizations.of(context)!.okButton),
-          ),
-        ],
       ),
     );
   }

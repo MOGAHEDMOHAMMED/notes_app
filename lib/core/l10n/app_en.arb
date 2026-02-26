@@ -1,5 +1,5 @@
 {
-    "appTitle": "My Notes",
+    "appTitle": "Dwaen",
     "addNote": "Add Note",
     "editNote": "Edit Note",
     "delete": "Delete",
@@ -74,5 +74,9 @@
     "phoneLabel": "Phone",
     "locationLabel": "Location",
     "locationValue": "Sanaa, Yemen",
-    "skillsInterestsTitle": "Skills & Interests"
+    "skillsInterestsTitle": "Skills & Interests",
+    "emptyContentShare":"Can't share empty content",
+    "sharedVia":"Share via Dwaen App Notes",
+    "updateCategory":"Update category",
+    "confirm":"Confirm"
 }

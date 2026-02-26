@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_project/providers/managment_some_state.dart';
+import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import '../../models/note_model.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/l10n/app_localizations.dart';
 
+// ignore: must_be_immutable
 class NotesGridView extends StatelessWidget {
-  final List<NoteModel> notes;
-  const NotesGridView({super.key, required this.notes});
+  final String notesStatus;
+  List<NoteModel>? categroyNotes;
+  NotesGridView({super.key, required this.notesStatus, this.categroyNotes});
 
   @override
   Widget build(BuildContext context) {
+    final notesProvider = context.watch<NotesProvider>();
+    final List<NoteModel> notes;
+    if (categroyNotes == null) {
+      notes = notesStatus == "active"
+          ? notesProvider.activeNotes
+          : notesStatus == "deleted"
+          ? notesProvider.deletedNotes
+          : notesProvider.archivedNotes;
+    } else {
+      notes = categroyNotes!;
+    }
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -68,10 +82,7 @@ class NotesGridView extends StatelessWidget {
                   note.content,
                   maxLines: 6,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    height: 1.4,
-                  ),
+                  style: const TextStyle(fontSize: 13, height: 1.4),
                 ),
               ),
 
@@ -83,7 +94,7 @@ class NotesGridView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
-                  note.categoryName != null ? note.categoryName.toString() : '',
+                  note.categoryName ?? '',
                   style: TextStyle(
                     // backgroundColor: const Color.fromARGB(255, 215, 207, 207),
                     fontSize: 12,

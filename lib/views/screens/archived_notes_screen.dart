@@ -4,6 +4,7 @@ import 'package:my_flutter_project/core/routes/app_routes.dart';
 // import 'package:get/get.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
+import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -17,13 +18,12 @@ class ArchivedNotesScreen extends StatelessWidget {
   int grid = 2;
   @override
   Widget build(BuildContext context) {
-    final notesController = context.watch<NotesProvider>();
-    final notes = notesController.archivedNotes;
-    final tr = AppLocalizations.of(context)!;
+    final notesprovider = context.watch<NotesProvider>();
+    final notes = notesprovider.archivedNotes;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.archivedNotesAppBar),
+        title: Text(AppLocalizations.of(context)!.archivedNotesAppBar),
         actions: [
           IconButton(
             onPressed: () {
@@ -50,7 +50,8 @@ class ArchivedNotesScreen extends StatelessWidget {
               icon: Icons.note_add_outlined,
               message: AppLocalizations.of(context)!.noArchivedNotes,
             )
-          : NotesGridView(notes: notes),
+          : NotesGridView(notesStatus: "archived"),
+      floatingActionButton: HelperMethods.addNoteButton(context,status: "archived"),
     );
   }
 }

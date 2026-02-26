@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
-import 'package:my_flutter_project/auth_wrapper.dart';
+import 'package:my_flutter_project/auth_wrapper.dart' show AuthWrapper;
 import 'package:my_flutter_project/providers/auth_provider.dart';
 import 'package:my_flutter_project/providers/managment_some_state.dart';
 import 'providers/theme_provider.dart';
@@ -21,8 +21,6 @@ void main() async {
   final themeProvider = ThemeProvider();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await themeProvider.loadTheme();
-  
-  await AuthManager.init();
 
   runApp(
     MultiProvider(
@@ -58,8 +56,8 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeProvider.themeMode,
-          home: const AuthWrapper(), 
-          
+          home: const AuthWrapper(),
+
           onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         );
       },

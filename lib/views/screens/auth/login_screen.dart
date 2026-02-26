@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/auth_wrapper.dart';
+
 import 'package:my_flutter_project/providers/language_provider.dart';
+import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
@@ -119,11 +120,10 @@ class UserLoginScreen extends StatelessWidget {
                         if (!context.mounted) return;
                         if (error != null) {
                           // ignore: use_build_context_synchronously
-                          _showErrorDialog(context, error);
+                          HelperMethods.showErrorDialog(context, error);
                           return;
                         }
-                        if (error == null) print("Login successful");
-                        AuthManager.login();
+                        
                       },
                       child: Text(
                         tr.loginButton,
@@ -153,10 +153,10 @@ class UserLoginScreen extends StatelessWidget {
                     onPressed: () async {
                       var result = await authProvider.signInWithGoogle();
                       if (result == null) {
-                        AuthManager.login();
+                        // login state already saved by AuthProvider
                       } else {
                         // ignore: use_build_context_synchronously
-                        _showErrorDialog(context, result);
+                        HelperMethods.showErrorDialog(context, result);
                       }
                     },
                     icon: const Icon(Icons.g_mobiledata, size: 30),
@@ -167,7 +167,7 @@ class UserLoginScreen extends StatelessWidget {
                   Container(
                     alignment: Alignment.bottomRight,
                     width: 170,
-                    height: 50,
+                    height: 60,
                     child: ElevatedButton(
                       onPressed: () {
                         languageProvider.changeLanguage(
@@ -216,6 +216,7 @@ class UserLoginScreen extends StatelessWidget {
       controller: controller,
       obscureText: isPassword ? isObscured : false,
       textAlign: TextAlign.center,
+      cursorOpacityAnimates: false,
       decoration: InputDecoration(
         labelText: label,
         filled: true,
@@ -226,22 +227,6 @@ class UserLoginScreen extends StatelessWidget {
           icon: Icon(icon, color: theme.colorScheme.primary),
           onPressed: onIconPressed,
         ),
-      ),
-    );
-  }
-
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Icon(Icons.error, color: Colors.red, size: 40),
-        content: Text(message, textAlign: TextAlign.center),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(AppLocalizations.of(context)!.okButton),
-          ),
-        ],
       ),
     );
   }

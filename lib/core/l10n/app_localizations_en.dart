@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'My Notes';
+  String get appTitle => 'Dwaen';
 
   @override
   String get addNote => 'Add Note';
@@ -233,4 +233,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skillsInterestsTitle => 'Skills & Interests';
+
+  @override
+  String get emptyContentShare => 'Can\'t share empty content';
+
+  @override
+  String get sharedVia => 'Share via Dwaen App Notes';
+
+  @override
+  String get updateCategory => 'Update category';
+
+  @override
+  String get confirm => 'Confirm';
 }

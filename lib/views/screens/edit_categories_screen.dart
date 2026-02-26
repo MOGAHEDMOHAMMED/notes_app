@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/models/category_model.dart';
 import 'package:provider/provider.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../../providers/notes_provider.dart';
@@ -30,25 +31,24 @@ class EditCategoriesScreen extends StatelessWidget {
                 tr.addCategory,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              onTap: () => _showAddCategoryDialog(context),
+              onTap: () => _showCategoryDialog(context),
             );
           }
 
           final category = categories[index - 1];
 
           return ListTile(
-            leading: IconButton(
-              icon: const Icon(Icons.label_outline),
-              onPressed: () {},
-            ),
+            leading: const Icon(Icons.label_outline),
             title: Text(category.name),
             trailing: IconButton(
               onPressed: () {
-                ScaffoldMessenger.of(
+                _showCategoryDialog(
                   context,
-                ).showSnackBar(SnackBar(content: Text(tr.devlopment)));
+                  isNewCat: false,
+                  oldCategory: category,
+                );
               },
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
             ),
           );
         },
@@ -56,14 +56,21 @@ class EditCategoriesScreen extends StatelessWidget {
     );
   }
 
-  void _showAddCategoryDialog(BuildContext context) {
+  void _showCategoryDialog(
+    BuildContext context, {
+    bool isNewCat = true,
+    CategoryModel? oldCategory,
+  }) {
     final tr = AppLocalizations.of(context)!;
-    final controller = TextEditingController();
+
+    final controller = isNewCat
+        ? TextEditingController()
+        : TextEditingController(text: oldCategory?.name);
 
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(tr.addCategory),
+        title: Text(isNewCat ? tr.addCategory : tr.updateCategory),
         content: TextField(
           controller: controller,
           decoration: InputDecoration(hintText: tr.categoryNameHint),
@@ -73,14 +80,21 @@ class EditCategoriesScreen extends StatelessWidget {
           TextButton(
             onPressed: () {
               if (controller.text.isNotEmpty) {
-                ctx.read<NotesProvider>().addCategory(
-                  controller.text.trim(),
-                  '111111',
-                );
+                if (isNewCat) {
+                  ctx.read<NotesProvider>().addCategory(
+                    controller.text.trim(),
+                    '111111',
+                  );
+                } else {
+                  ctx.read<NotesProvider>().updateCategoryName(
+                    oldCategory!,
+                    controller.text.trim(),
+                  );
+                }
                 Navigator.pop(ctx);
               }
             },
-            child: Text(tr.add),
+            child: Text(isNewCat ? tr.add : tr.confirm),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx),

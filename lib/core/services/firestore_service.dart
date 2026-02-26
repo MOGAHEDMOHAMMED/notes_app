@@ -30,6 +30,19 @@ class FirestoreService {
     }
   }
 
+  Future<void> updateCategory(CategoryModel category,String userId) async {
+    try {
+      await _db
+          .collection('users')
+          .doc(userId)
+          .collection('categories')
+          .doc(category.id)
+          .update(category.toMap());
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   Stream<List<NoteModel>> getNotes(String userId) {
     return _db
         .collection('users')
@@ -54,10 +67,14 @@ class FirestoreService {
   }
 
   Future<void> addCategory(CategoryModel cat, String userId) async {
-    await _db.collection('users').doc(userId).collection('categories').add({
-      'name': cat.name,
-      'color': cat.color,
-    });
+    try {
+      await _db.collection('users').doc(userId).collection('categories').add({
+        'name': cat.name,
+        'color': cat.color,
+      });
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Stream<List<CategoryModel>> getCategories(String userId) {

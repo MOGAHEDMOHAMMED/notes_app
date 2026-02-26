@@ -17,7 +17,6 @@ class AuthProvider extends ChangeNotifier {
   void loadLoginState() async {
     final prefs = await SharedPreferences.getInstance();
     _isLoggedIn = prefs.getBool('isLogin') ?? false;
-    print("Loaded login state: $_isLoggedIn");
     notifyListeners();
   }
 
@@ -31,9 +30,11 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _setLogin(bool value) {
+  Future<void> _setLogin(bool value) async {
     _isLoggedIn = value;
-    notifyListeners();
+    notifyListeners(); // Notify UI immediately so AuthWrapper rebuilds
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLogin', value);
   }
 
   Future<String?> signInWithGoogle() async {
@@ -69,12 +70,11 @@ class AuthProvider extends ChangeNotifier {
       }
 
       _setLoading(false);
-      _setLogin(true);
-      print("Login successful $isLoggedIn");
+      await _setLogin(true);
       return null;
     } catch (e) {
       _setLoading(false);
-      _setLogin(false);
+      await _setLogin(false);
       return "حدث خطأ: تأكد من صحة البريد الإلكتروني وكلمة المرور";
     }
   }
@@ -109,7 +109,6 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signOut() async {
     await _authService.signOut();
-    _setLogin(false);
-    notifyListeners();
+    await _setLogin(false);
   }
 }

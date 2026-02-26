@@ -233,4 +233,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get skillsInterestsTitle => 'المهارات والاهتمامات';
+
+  @override
+  String get emptyContentShare => 'لا يمكنك مشاركة ملاحظة فارغة';
+
+  @override
+  String get sharedVia => 'تمت مشاركة هذا النص من تطبيق دوّن';
+
+  @override
+  String get updateCategory => 'تعديل تصنيف';
+
+  @override
+  String get confirm => 'موافق';
 }

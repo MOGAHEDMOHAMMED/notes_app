@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_project/providers/managment_some_state.dart';
 import 'package:my_flutter_project/views/widget/app_drawer.dart';
 import 'package:my_flutter_project/views/widget/center_if_notes_empty.dart';
+import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
-import 'package:my_flutter_project/core/routes/app_routes.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 
-import '../../models/note_model.dart';
 
 class ActiveNoteScreen extends StatelessWidget {
   const ActiveNoteScreen({super.key});
@@ -46,18 +45,8 @@ class ActiveNoteScreen extends StatelessWidget {
       ),
       body: noNotes
           ? CenterIfNotesEmpty(icon: Icons.edit_note, message: tr.noActiveNotes)
-          : NotesGridView(notes: notes),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          NoteModel? emptyNote = notesProvider.emptyNote();
-          Navigator.pushNamed(
-            context,
-            AppRoutes.noteDetailsScreen,
-            arguments: {'note': emptyNote, 'isNewNote': true},
-          );
-        },
-      ),
+          : NotesGridView(notesStatus: "active"),
+      floatingActionButton: HelperMethods.addNoteButton(context),
     );
   }
 }

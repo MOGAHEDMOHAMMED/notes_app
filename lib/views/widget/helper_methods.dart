@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/core/routes/app_routes.dart';
+import 'package:my_flutter_project/models/category_model.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../core/l10n/app_localizations.dart';
 import '../../models/note_model.dart';
@@ -12,6 +15,22 @@ class HelperMethods extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+
+  static void showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Icon(Icons.error, color: Colors.red, size: 40),
+        content: Text(message, textAlign: TextAlign.center),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppLocalizations.of(context)!.okButton),
+          ),
+        ],
+      ),
+    );
   }
 
   static void showNoteOptions(BuildContext context, NoteModel note) {
@@ -130,9 +149,17 @@ class HelperMethods extends StatelessWidget {
                   leading: const Icon(Icons.share_outlined),
                   title: Text(tr.shareNote),
                   onTap: () {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(tr.devlopment)));
+                    if (note.content.isEmpty) {
+                      HelperMethods.showErrorDialog(
+                        context,
+                        tr.emptyContentShare,
+                      );
+                      Navigator.pop(context);
+                      return;
+                    }
+                    String shareContent =
+                        "${note.title}\n\n------------\n${note.content} \n\n-----------\n${tr.sharedVia} www.dwaen.com";
+                    HelperMethods.shareNote(shareContent);
                     Navigator.pop(context);
                   },
                 ),
@@ -144,82 +171,41 @@ class HelperMethods extends StatelessWidget {
     );
   }
 
-  // static void showNoteOptions(BuildContext context, NoteModel note) {
-  //   final tr = AppLocalizations.of(context)!;
-  //   final provider = context.read<NotesProvider>();
-  //   showModalBottomSheet(
-  //     context: context,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-  //     ),
-  //     builder: (context) {
-  //       return Container(
-  //         padding: const EdgeInsets.symmetric(vertical: 20),
-  //         child: Wrap(
-  //           children: [
-  //             Padding(
-  //               padding: const EdgeInsets.symmetric(
-  //                 horizontal: 20,
-  //                 vertical: 10,
-  //               ),
-  //               child: Text(
-  //                 note.title,
-  //                 style: const TextStyle(
-  //                   fontWeight: FontWeight.bold,
-  //                   fontSize: 16,
-  //                 ),
-  //                 maxLines: 1,
-  //                 overflow: TextOverflow.ellipsis,
-  //               ),
-  //             ),
-  //             const Divider(),
-  //             ListTile(
-  //               leading: const Icon(Icons.archive_outlined, color: Colors.blue),
-  //               title: Text(tr.moveToArchived),
-  //               onTap: () {
-  //                 provider.moveNote(note, 'archived');
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.copy, color: Colors.blue),
-  //               title: Text(tr.duplicate),
-  //               onTap: () {
-  //                 provider.addNote(note.title, note.content);
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.label_outline, color: Colors.blue),
-  //               title: Text(tr.category),
-  //               onTap: () {
-  //                 Navigator.push(
-  //                   context,
-  //                   MaterialPageRoute(
-  //                     builder: (context) => SelectCategoryScreen(note: note),
-  //                   ),
-  //                 );
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.delete_outline, color: Colors.red),
-  //               title: Text(tr.moveToRecycleBin),
-  //               onTap: () {
-  //                 provider.moveNote(note, 'deleted'); //
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //             ListTile(
-  //               leading: const Icon(Icons.share_outlined),
-  //               title: Text(tr.shareNote),
-  //               onTap: () {
-  //                 Navigator.pop(context);
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+  static void shareNote(String content) {
+    SharePlus.instance.share(ShareParams(text: content));
+  }
+
+  static FloatingActionButton addNoteButton(
+    BuildContext context, {
+    String status = "active",
+    CategoryModel? categoryModel,
+  }) {
+    return FloatingActionButton(
+      child: const Icon(Icons.add),
+      onPressed: () {
+        NoteModel? emptyNote = context.read<NotesProvider>().emptyNote(
+          status: status,
+          categoryModel: categoryModel,
+        );
+        Navigator.pushNamed(
+          context,
+          AppRoutes.noteDetailsScreen,
+          arguments: {'note': emptyNote, 'isNewNote': true},
+        );
+      },
+    );
+  }
+
+  static ScaffoldFeatureController showSnackbarWithOutActions(
+    BuildContext context,
+    String message,
+  ) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 }

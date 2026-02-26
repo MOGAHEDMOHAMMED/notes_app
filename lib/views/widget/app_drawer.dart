@@ -2,7 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/auth_wrapper.dart';
+
 import 'package:my_flutter_project/views/screens/show_category_notes.dart';
 import 'package:provider/provider.dart';
 import '../../core/l10n/app_localizations.dart';
@@ -92,7 +92,7 @@ class AppDrawer extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      ShowCategoryNotes(categoryName: cat.name),
+                                      ShowCategoryNotes(categoryModel: cat),
                                 ),
                                 (route) => route.isFirst,
                               );
@@ -197,7 +197,6 @@ class AppDrawer extends StatelessWidget {
                   isLogout: true,
                   onTap: () async {
                     await context.read<AuthProvider>().signOut();
-                    AuthManager.logout();
                     if (context.mounted) {
                       Navigator.pushNamedAndRemoveUntil(
                         context,

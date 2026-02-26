@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'My Notes'**
+  /// **'Dwaen'**
   String get appTitle;
 
   /// No description provided for @addNote.
@@ -547,6 +547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skills & Interests'**
   String get skillsInterestsTitle;
+
+  /// No description provided for @emptyContentShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t share empty content'**
+  String get emptyContentShare;
+
+  /// No description provided for @sharedVia.
+  ///
+  /// In en, this message translates to:
+  /// **'Share via Dwaen App Notes'**
+  String get sharedVia;
+
+  /// No description provided for @updateCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Update category'**
+  String get updateCategory;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
 }
 
 class _AppLocalizationsDelegate

@@ -16,7 +16,7 @@ class NotesProvider extends ChangeNotifier {
   StreamSubscription? _notesSubscription;
   StreamSubscription? _categorySubscription;
   bool _isLoading = false;
-  bool _isLoadingCategory = false;
+  bool isLoadingCategory = false;
 
   NotesProvider() {
     listenToNotes();
@@ -51,9 +51,7 @@ class NotesProvider extends ChangeNotifier {
     _notesSubscription = _service.getNotes(user.uid).listen((notesData) {
       _notes = notesData;
       _isLoading = false;
-
       print(" تم جلب ${_notes.length} ملاحظة من الفايربيس");
-
       notifyListeners();
     });
   }
@@ -78,14 +76,14 @@ class NotesProvider extends ChangeNotifier {
       return;
     }
 
-    _isLoadingCategory = true;
+    isLoadingCategory = true;
     notifyListeners();
 
     _categorySubscription?.cancel();
 
     _notesSubscription = _service.getCategories(user.uid).listen((notesData) {
       _categories = notesData;
-      _isLoadingCategory = false;
+      isLoadingCategory = false;
 
       print(" تم جلب ${_categories.length} تصنيف من الفايربيس");
 
@@ -97,6 +95,7 @@ class NotesProvider extends ChangeNotifier {
     String title,
     String content, {
     CategoryModel? category,
+    String status = "active",
   }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
@@ -111,14 +110,17 @@ class NotesProvider extends ChangeNotifier {
       categoryId: category?.id,
       categoryName: category?.name,
       categoryColor: category?.color,
-      status: 'active',
+      status: status,
       color: '',
     );
 
     await _service.addNote(newNote);
   }
 
-  NoteModel? emptyNote() {
+  NoteModel? emptyNote({
+    String status = "active",
+    CategoryModel? categoryModel,
+  }) {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return null;
 
@@ -129,10 +131,10 @@ class NotesProvider extends ChangeNotifier {
       createdAt: DateTime.now(),
       lastUpdate: DateTime.now(),
       userId: user.uid,
-      categoryId: '',
-      categoryName: '',
-      categoryColor: 0,
-      status: 'active',
+      categoryId: categoryModel?.id ?? '',
+      categoryName: categoryModel?.name ?? '',
+      categoryColor: categoryModel?.color ?? 0,
+      status: status,
     );
 
     return newNote;
@@ -160,6 +162,33 @@ class NotesProvider extends ChangeNotifier {
     );
 
     await _service.updateNote(updatedNote);
+  }
+
+  Future<void> updateCategoryName(
+    CategoryModel oldCategory,
+    String newName,
+  ) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+      final CategoryModel newCategory = CategoryModel(
+        id: oldCategory.id,
+        name: newName,
+        color: oldCategory.color,
+      );
+      _service.updateCategory(newCategory, user.uid);
+      List oldCategoryNotes = categoryNotes(oldCategory.name);
+    
+      if (oldCategoryNotes.isNotEmpty) {
+        for (var note in oldCategoryNotes) {
+          await changeNoteCategory(note, newCategory);
+        }
+        
+        notifyListeners();
+      }
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 
   Future<void> moveNote(NoteModel note, String newStatus) async {

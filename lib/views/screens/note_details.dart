@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:my_flutter_project/models/category_model.dart';
 import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
@@ -47,15 +48,28 @@ class _NoteDetailsState extends State<NoteDetails> {
         final content = contentController.text.trim();
         if (widget.isNewNote) {
           if (title.isEmpty && content.isEmpty) {
-            showSnackbarWithOutActions(context, tr.ignoreNotes);
+            HelperMethods.showSnackbarWithOutActions(context, tr.ignoreNotes);
           } else {
-            noteProvider.addNote(title, content);
-            showSnackbarWithOutActions(context, tr.save);
+            CategoryModel? cat;
+            if (widget.note!.categoryId != null) {
+              cat = CategoryModel(
+                id: widget.note!.categoryId!,
+                name: widget.note!.categoryName!,
+                color: widget.note!.categoryColor!,
+              );
+            }
+            noteProvider.addNote(
+              title,
+              content,
+              status: widget.note?.status ?? "active",
+              category: cat,
+            );
+            HelperMethods.showSnackbarWithOutActions(context, tr.save);
           }
         } else {
           if (widget.note!.title != title || widget.note!.content != content) {
             noteProvider.updateNote(widget.note!, title, content);
-            showSnackbarWithOutActions(context, tr.save);
+            HelperMethods.showSnackbarWithOutActions(context, tr.save);
           }
         }
         if (context.mounted) Navigator.pop(context);
@@ -73,14 +87,20 @@ class _NoteDetailsState extends State<NoteDetails> {
                     "active",
                   );
                   Navigator.pop(context);
-                  showSnackbarWithOutActions(context, tr.unArchivedSuccess);
+                  HelperMethods.showSnackbarWithOutActions(
+                    context,
+                    tr.unArchivedSuccess,
+                  );
                 } else {
                   await context.read<NotesProvider>().moveNote(
                     widget.note!,
                     "archived",
                   );
                   Navigator.pop(context);
-                  showSnackbarWithOutActions(context, tr.archivedSuccess);
+                  HelperMethods.showSnackbarWithOutActions(
+                    context,
+                    tr.archivedSuccess,
+                  );
                 }
 
                 if (context.mounted) {
@@ -100,16 +120,21 @@ class _NoteDetailsState extends State<NoteDetails> {
                     widget.note!.id,
                   );
                   Navigator.pop(context);
-                  showSnackbarWithOutActions(context, tr.deleteForeverSuccess);
+                  HelperMethods.showSnackbarWithOutActions(
+                    context,
+                    tr.deleteForeverSuccess,
+                  );
                 } else {
                   await context.read<NotesProvider>().moveNote(
                     widget.note!,
                     'deleted',
                   );
                   Navigator.pop(context);
-                  showSnackbarWithOutActions(context, tr.deletedSuccess);
+                  HelperMethods.showSnackbarWithOutActions(
+                    context,
+                    tr.deletedSuccess,
+                  );
                 }
-
               },
             ),
             const SizedBox(width: 8),
@@ -173,17 +198,6 @@ class _NoteDetailsState extends State<NoteDetails> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>
-  showSnackbarWithOutActions(BuildContext context, String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        duration: Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
       ),
     );
   }
