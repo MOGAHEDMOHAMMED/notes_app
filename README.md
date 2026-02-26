@@ -14,5 +14,5 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-![screen image](notes_app/screen.png)
+![screen image](IMG-20260121-WA0013 - Copy.jpg)
 <img src="notes_app/screen.png" alt="screen image" width="600">
