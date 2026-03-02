@@ -9,7 +9,6 @@ import '../../providers/notes_provider.dart';
 
 class SelectCategoryScreen extends StatefulWidget {
   final NoteModel note;
-
   const SelectCategoryScreen({super.key, required this.note});
 
   @override
@@ -65,7 +64,7 @@ class _SelectCategoryScreenState extends State<SelectCategoryScreen> {
         backgroundColor: theme.colorScheme.surface,
         appBar: AppBar(
           title: Text(
-            tr.category, 
+            tr.category,
             style: theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -81,7 +80,9 @@ class _SelectCategoryScreenState extends State<SelectCategoryScreen> {
               decoration: BoxDecoration(
                 color: _selectedCategory == null
                     ? theme.colorScheme.primaryContainer.withOpacity(0.2)
-                    : theme.colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                    : theme.colorScheme.surfaceContainerHighest.withOpacity(
+                        0.3,
+                      ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
                   color: _selectedCategory == null
@@ -99,7 +100,7 @@ class _SelectCategoryScreenState extends State<SelectCategoryScreen> {
                   borderRadius: BorderRadius.circular(16),
                 ),
                 title: Text(
-                  tr.noCategory, 
+                  tr.noCategory,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -123,7 +124,7 @@ class _SelectCategoryScreenState extends State<SelectCategoryScreen> {
             ),
             const SizedBox(height: 24),
             Text(
-              tr.availableCategories, 
+              tr.availableCategories,
               style: theme.textTheme.labelLarge?.copyWith(
                 color: theme.colorScheme.outline,
               ),

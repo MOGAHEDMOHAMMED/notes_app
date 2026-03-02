@@ -3,25 +3,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
-import 'package:my_flutter_project/providers/managment_some_state.dart';
+import 'package:my_flutter_project/providers/ui_state_provider.dart';
+import 'package:my_flutter_project/views/widget/build_text_field.dart';
+// import 'package:my_flutter_project/providers/managment_some_state.dart';
 import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/auth_provider.dart' show AuthProvider;
 import '../../../providers/language_provider.dart';
 
-class CreateUserScreen extends StatelessWidget {
+class CreateUserScreen extends StatefulWidget {
+  const CreateUserScreen({super.key});
+
+  @override
+  State<CreateUserScreen> createState() => _CreateUserScreenState();
+}
+
+class _CreateUserScreenState extends State<CreateUserScreen> {
   final TextEditingController fullNameController = TextEditingController();
+
   final TextEditingController emailController = TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
-
-  CreateUserScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final authProvider = Provider.of<AuthProvider>(context);
-    final languageProvider = Provider.of<LanguageProvider>(context);
 
     return Scaffold(
       body: CustomScrollView(
@@ -74,89 +80,101 @@ class CreateUserScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const SizedBox(height: 20),
-                  _buildTextField(
-                    emailController,
-                    tr.emailLabel,
-                    Icons.email,
-                    context,
-                    theme,
+                  BuildTextField(
+                    controller: emailController,
+                    label: tr.emailLabel,
+                    icon: Icons.email,
+                    theme: theme,
+                    isObscured: false,
                   ),
+
                   const SizedBox(height: 15),
-                  _buildTextField(
-                    passwordController,
-                    tr.passwordLabel,
-                    Provider.of<ManagmentSomeState>(
-                          context,
-                          listen: true,
-                        ).currentVisibility()
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                    context,
-                    theme,
-                    isPassword: true,
+                  //Password Text Field:
+                  Selector<UIStateProvider, bool>(
+                    selector: (context, isScuredPass) =>
+                        isScuredPass.currentVisibility(),
+                    builder: (context, isObscured, child) => BuildTextField(
+                      controller: passwordController,
+                      label: tr.passwordLabel,
+                      isPassword: true,
+                      icon: isObscured
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                      theme: theme,
+                      isObscured: isObscured,
+                      onIconPressed: () =>
+                          context.read<UIStateProvider>().toggleVisibility(),
+                    ),
                   ),
                   const SizedBox(height: 40),
-                  if (authProvider.isLoading)
-                    const CircularProgressIndicator()
-                  else
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 50,
-                          vertical: 15,
-                        ),
-                      ),
-                      onPressed: () async {
-                        String? error = await authProvider.signUp(
-                          emailController.text.trim(),
-                          passwordController.text.trim(),
-                          fullNameController.text.trim(),
-                        );
-                        if (error != null) {
-                          // ignore: use_build_context_synchronously
-                          HelperMethods.showErrorDialog(context, error);
-                        } else {
-                          // login state already saved by AuthProvider
-                          if (context.mounted) Navigator.pop(context);
-                        }
-                      },
-                      child: Text(
-                        tr.createButton,
-                        style: TextStyle(
-                          fontSize: 22,
-                          color: theme.colorScheme.onPrimary,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                  //create account button:
+                  Consumer<AuthProvider>(
+                    builder: (context, authProvider, child) =>
+                        authProvider.isLoading
+                        ? const CircularProgressIndicator()
+                        : ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme.primary,
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 50,
+                                vertical: 15,
+                              ),
+                            ),
+                            onPressed: () async {
+                              String? error = await authProvider.signUp(
+                                emailController.text.trim(),
+                                passwordController.text.trim(),
+                                fullNameController.text.trim(),
+                              );
+                              if (error != null) {
+                                // ignore: use_build_context_synchronously
+                                HelperMethods.showErrorDialog(context, error);
+                              } else {
+                                // login state already saved by AuthProvider
+                                if (context.mounted) Navigator.pop(context);
+                              }
+                            },
+                            child: Text(
+                              tr.createButton,
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: theme.colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                  ),
                   const Divider(height: 40),
                   SizedBox(
                     width: 170,
                     height: 60,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        languageProvider.changeLanguage(
-                          languageProvider.isArabic
-                              ? Locale("en", "US")
-                              : Locale("ar", "SA"),
-                        );
-                      },
-                      child: Row(
-                        spacing: 10,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            tr.language,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: "Tahoma",
+                    //Language Button:
+                    child: Consumer<LanguageProvider>(
+                      builder: (context, languageProvider, child) =>
+                          ElevatedButton(
+                            onPressed: () {
+                              Provider.of<LanguageProvider>(
+                                context,
+                                listen: false,
+                              ).changeLanguage(
+                                languageProvider.isArabic
+                                    ? Locale("en", "US")
+                                    : Locale("ar", "SA"),
+                              );
+                            },
+                            child: Row(
+                              spacing: 10,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  tr.language,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                                Icon(Icons.language_sharp),
+                              ],
                             ),
                           ),
-                          Icon(Icons.language_sharp),
-                        ],
-                      ),
                     ),
                   ),
                   const SizedBox(height: 40),
@@ -169,38 +187,11 @@ class CreateUserScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(
-    TextEditingController controller,
-    String label,
-    IconData icon,
-    BuildContext context,
-    ThemeData theme, {
-    bool isPassword = false,
-  }) {
-    return TextField(
-      controller: controller,
-      obscureText: isPassword
-          ? Provider.of<ManagmentSomeState>(
-              context,
-              listen: true,
-            ).currentVisibility()
-          : false,
-      textAlign: TextAlign.center,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        suffixIcon: IconButton(
-          icon: Icon(icon, color: theme.colorScheme.primary),
-          onPressed: isPassword
-              ? () {
-                  Provider.of<ManagmentSomeState>(
-                    context,
-                    listen: false,
-                  ).toggleVisibility();
-                }
-              : null,
-        ),
-      ),
-    );
+  @override
+  void dispose() {
+    fullNameController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 }

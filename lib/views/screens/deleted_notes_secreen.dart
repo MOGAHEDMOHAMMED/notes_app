@@ -7,32 +7,29 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
-import '../../providers/managment_some_state.dart';
+import '../../providers/ui_state_provider.dart';
 import '../widget/app_drawer.dart';
 
 // ignore: must_be_immutable
 class DeletedNotesScreen extends StatelessWidget {
-  DeletedNotesScreen({super.key});
-  TextEditingController textField = TextEditingController();
+  const DeletedNotesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final notesController = context.watch<NotesProvider>();
-    final notes = notesController.deletedNotes;
-    final tr = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr.deletedNoteAppBar),
+        title: Text(AppLocalizations.of(context)!.deletedNoteAppBar),
         actions: [
           IconButton(
             onPressed: () {
-              if (context.read<ManagmentSomeState>().isGrid) {
-                context.read<ManagmentSomeState>().toggleGrid();
+              if (context.read<UIStateProvider>().isGrid) {
+                context.read<UIStateProvider>().toggleGrid();
               } else {
-                context.read<ManagmentSomeState>().toggleGrid();
+                context.read<UIStateProvider>().toggleGrid();
               }
             },
             icon: Icon(
-              context.watch<ManagmentSomeState>().isGrid
+              context.watch<UIStateProvider>().isGrid
                   ? Icons.view_agenda_outlined
                   : Icons.grid_view,
             ),
@@ -43,12 +40,14 @@ class DeletedNotesScreen extends StatelessWidget {
 
       drawer: AppDrawer(currentScreen: AppRoutes.deletedNotesScreen),
 
-      body: notes.isEmpty
-          ? CenterIfNotesEmpty(
-              icon: Icons.note_add_outlined,
-              message: AppLocalizations.of(context)!.noDeletedNote,
-            )
-          : NotesGridView(notesStatus: "deleted"),
+      body: Consumer<NotesProvider>(
+        builder: (context, notesProv, child) => notesProv.deletedNotes.isEmpty
+            ? CenterIfNotesEmpty(
+                icon: Icons.note_add_outlined,
+                message: AppLocalizations.of(context)!.noDeletedNote,
+              )
+            : NotesGridView(notes: notesProv.deletedNotes),
+      ),
       floatingActionButton: HelperMethods.addNoteButton(
         context,
         status: "deleted",

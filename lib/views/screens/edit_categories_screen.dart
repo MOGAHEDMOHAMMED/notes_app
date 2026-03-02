@@ -10,9 +10,6 @@ class EditCategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tr = AppLocalizations.of(context)!;
-    final provider = context.watch<NotesProvider>();
-    final categories = provider.categories;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(tr.editCategoriesTitle),
@@ -21,37 +18,39 @@ class EditCategoriesScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: ListView.builder(
-        itemCount: categories.length + 1,
-        itemBuilder: (context, index) {
-          if (index == 0) {
+      body: Consumer<NotesProvider>(
+        builder: (context, notesProv, child) => ListView.builder(
+          itemCount: notesProv.categories.length + 1,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return ListTile(
+                leading: const Icon(Icons.add),
+                title: Text(
+                  tr.addCategory,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                onTap: () => _showCategoryDialog(context),
+              );
+            }
+
+            final category = notesProv.categories[index - 1];
+
             return ListTile(
-              leading: const Icon(Icons.add),
-              title: Text(
-                tr.addCategory,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              leading: const Icon(Icons.label_outline),
+              title: Text(category.name),
+              trailing: IconButton(
+                onPressed: () {
+                  _showCategoryDialog(
+                    context,
+                    isNewCat: false,
+                    oldCategory: category,
+                  );
+                },
+                icon: const Icon(Icons.edit),
               ),
-              onTap: () => _showCategoryDialog(context),
             );
-          }
-
-          final category = categories[index - 1];
-
-          return ListTile(
-            leading: const Icon(Icons.label_outline),
-            title: Text(category.name),
-            trailing: IconButton(
-              onPressed: () {
-                _showCategoryDialog(
-                  context,
-                  isNewCat: false,
-                  oldCategory: category,
-                );
-              },
-              icon: const Icon(Icons.edit),
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

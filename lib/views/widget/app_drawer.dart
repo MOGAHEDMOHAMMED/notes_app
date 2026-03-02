@@ -1,10 +1,11 @@
 // ignore_for_file: deprecated_member_use, must_be_immutable
 
-import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:flutter/material.dart';
-
-import 'package:my_flutter_project/views/screens/show_category_notes.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:provider/provider.dart';
+
+import 'package:my_flutter_project/models/category_model.dart';
+import 'package:my_flutter_project/views/screens/show_category_notes.dart';
 import '../../core/l10n/app_localizations.dart';
 import '../../core/routes/app_routes.dart';
 import '../../providers/notes_provider.dart';
@@ -15,7 +16,7 @@ class AppDrawer extends StatelessWidget {
   String currentScreen;
   @override
   Widget build(BuildContext context) {
-    final categories = context.watch<NotesProvider>().categories;
+    // final categories = context.watch<NotesProvider>().categories;
     final tr = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
@@ -31,11 +32,12 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           _buildFancyHeader(context, tr.appTitle),
-
           Expanded(
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
               children: [
+
+                //Show List of categories:
                 _buildSectionTitle(context, tr.category),
                 Container(
                   decoration: BoxDecoration(
@@ -48,65 +50,70 @@ class AppDrawer extends StatelessWidget {
                     data: Theme.of(
                       context,
                     ).copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      leading: _buildIconContainer(
-                        Icons.category_rounded,
-                        Colors.blue,
-                      ),
-                      title: Text(
-                        tr.category,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
+
+                    child: Selector<NotesProvider, List<CategoryModel>>(
+                      selector: (context, NotesProvider state) =>
+                          state.categories,
+                      builder: (context, categories, child) => ExpansionTile(
+                        leading: _buildIconContainer(
+                          Icons.category_rounded,
+                          Colors.blue,
                         ),
-                      ),
-                      childrenPadding: EdgeInsets.zero,
-                      children: [
-                        _buildSubTile(
-                          context,
-                          title: tr.update,
-                          icon: Icons.edit_rounded,
-                          onTap: () => Navigator.pushNamed(
+                        title: Text(
+                          tr.category,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        childrenPadding: EdgeInsets.zero,
+                        children: [
+                          _buildSubTile(
                             context,
-                            AppRoutes.editCategoriesScreen,
+                            title: tr.update,
+                            icon: Icons.edit_rounded,
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.editCategoriesScreen,
+                            ),
                           ),
-                        ),
-                        ...categories.map(
-                          (cat) => ListTile(
-                            dense: true,
-                            contentPadding: const EdgeInsets.only(
-                              left: 60,
-                              right: 20,
+                          ...categories.map(
+                            (cat) => ListTile(
+                              dense: true,
+                              contentPadding: const EdgeInsets.only(
+                                left: 60,
+                                right: 20,
+                              ),
+                              leading: const Icon(
+                                Icons.label_outline,
+                                size: 12,
+                                color: Colors.amberAccent,
+                              ),
+                              title: Text(
+                                cat.name,
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ShowCategoryNotes(categoryModel: cat),
+                                  ),
+                                  (route) => route.isFirst,
+                                );
+                              },
                             ),
-                            leading: const Icon(
-                              Icons.label_outline,
-                              size: 12,
-                              color: Colors.amberAccent,
-                            ),
-                            title: Text(
-                              cat.name,
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            onTap: () {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShowCategoryNotes(categoryModel: cat),
-                                ),
-                                (route) => route.isFirst,
-                              );
-                            },
-                            onLongPress: () {},
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
 
+                // Show archived and deleted notes only if we are not already in them:
+                //archived notes:
                 if (currentScreen != AppRoutes.archivedNotesScreen) ...[
                   _buildDrawerItem(
                     context,
@@ -121,6 +128,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                 ],
+                //deleted notes:
                 if (currentScreen != AppRoutes.deletedNotesScreen) ...[
                   _buildDrawerItem(
                     context,
@@ -136,7 +144,9 @@ class AppDrawer extends StatelessWidget {
                   const SizedBox(height: 20),
                 ],
 
+                //app  section(settings, about app, about developer):
                 _buildSectionTitle(context, tr.app),
+                //settings Screen:
                 _buildDrawerItem(
                   context,
                   title: tr.setting,
@@ -146,6 +156,8 @@ class AppDrawer extends StatelessWidget {
                       Navigator.pushNamed(context, AppRoutes.settingsScreen),
                 ),
                 const SizedBox(height: 10),
+
+                //about app screen:
                 _buildDrawerItem(
                   context,
                   title: tr.aboutApp,
@@ -160,6 +172,8 @@ class AppDrawer extends StatelessWidget {
                       Navigator.pushNamed(context, AppRoutes.aboutAppScreen),
                 ),
                 const SizedBox(height: 10),
+                
+                //about developer screen:
                 _buildDrawerItem(
                   context,
                   title: tr.aboutDeveloper,
@@ -179,6 +193,7 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
 
+          //logout button and version number at the bottom of the drawer:
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(

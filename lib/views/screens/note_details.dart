@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import '../../core/l10n/app_localizations.dart';
 import 'package:my_flutter_project/models/category_model.dart';
 import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
-import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 import 'package:my_flutter_project/models/note_model.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 
@@ -49,6 +49,8 @@ class _NoteDetailsState extends State<NoteDetails> {
         if (widget.isNewNote) {
           if (title.isEmpty && content.isEmpty) {
             HelperMethods.showSnackbarWithOutActions(context, tr.ignoreNotes);
+            Navigator.pop(context);
+            return;
           } else {
             CategoryModel? cat;
             if (widget.note!.categoryId != null) {
@@ -69,7 +71,7 @@ class _NoteDetailsState extends State<NoteDetails> {
         } else {
           if (widget.note!.title != title || widget.note!.content != content) {
             noteProvider.updateNote(widget.note!, title, content);
-            HelperMethods.showSnackbarWithOutActions(context, tr.save);
+            HelperMethods.showSnackbarWithOutActions(context, tr.updateNote);
           }
         }
         if (context.mounted) Navigator.pop(context);
@@ -101,12 +103,6 @@ class _NoteDetailsState extends State<NoteDetails> {
                     context,
                     tr.archivedSuccess,
                   );
-                }
-
-                if (context.mounted) {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(tr.archivedSuccess)));
                 }
               },
             ),
@@ -179,7 +175,7 @@ class _NoteDetailsState extends State<NoteDetails> {
                   items: [
                     const BottomNavigationBarItem(
                       icon: Icon(Icons.color_lens_outlined),
-                      label: "m ",
+                      label: '',
                     ),
                     BottomNavigationBarItem(
                       icon: IconButton(
@@ -189,10 +185,10 @@ class _NoteDetailsState extends State<NoteDetails> {
                         ),
                         icon: const Icon(Icons.more_vert),
                       ),
-                      label: "m ",
+                      label: "",
                     ),
                   ],
-                  onTap: (index) {},
+                  onTap: null,
                 ),
               ),
             ],

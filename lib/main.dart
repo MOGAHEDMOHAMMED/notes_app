@@ -1,15 +1,16 @@
 // ignore_for_file: deprecated_member_use
+import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:my_flutter_project/firebase_options.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
 import 'package:my_flutter_project/auth_wrapper.dart' show AuthWrapper;
 import 'package:my_flutter_project/providers/auth_provider.dart';
-import 'package:my_flutter_project/providers/managment_some_state.dart';
+import 'package:my_flutter_project/providers/ui_state_provider.dart';
 import 'providers/theme_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_flutter_project/core/routes/route_generator.dart';
@@ -17,7 +18,8 @@ import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/providers/language_provider.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   final themeProvider = ThemeProvider();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await themeProvider.loadTheme();
@@ -28,12 +30,13 @@ void main() async {
         ChangeNotifierProvider(create: (_) => LanguageProvider()),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => ManagmentSomeState()),
+        ChangeNotifierProvider(create: (_) => UIStateProvider()),
         ChangeNotifierProvider(create: (_) => NotesProvider()),
       ],
       child: const MyApp(),
     ),
   );
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
@@ -44,7 +47,7 @@ class MyApp extends StatelessWidget {
       builder: (context, languageProvider, themeProvider, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Notes App',
+          title: 'Dwaen',
           locale: languageProvider.currentLocale,
           supportedLocales: const [Locale('ar', 'SA'), Locale('en', 'US')],
           localizationsDelegates: const [

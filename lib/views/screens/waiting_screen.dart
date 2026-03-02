@@ -16,8 +16,8 @@ class WaitingScreen extends StatelessWidget {
             size: 150,
             color: Colors.amberAccent.withOpacity(0.5),
           ),
-          SizedBox(height: 20,),
-          Center(
+          const SizedBox(height: 20),
+          const Center(
             child: CircularProgressIndicator(backgroundColor: Colors.amber),
           ),
         ],

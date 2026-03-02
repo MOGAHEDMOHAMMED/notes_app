@@ -8,35 +8,30 @@ import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:my_flutter_project/views/widget/notes_grid_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/managment_some_state.dart';
+import '../../providers/ui_state_provider.dart';
 import '../widget/app_drawer.dart';
 
 // ignore: must_be_immutable
 class ArchivedNotesScreen extends StatelessWidget {
-  ArchivedNotesScreen({super.key});
-  TextEditingController textField = TextEditingController();
-  int grid = 2;
+  const ArchivedNotesScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final notesprovider = context.watch<NotesProvider>();
-    final notes = notesprovider.archivedNotes;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.archivedNotesAppBar),
         actions: [
-          IconButton(
-            onPressed: () {
-              if (context.read<ManagmentSomeState>().isGrid) {
-                context.read<ManagmentSomeState>().toggleGrid();
-              } else {
-                context.read<ManagmentSomeState>().toggleGrid();
-              }
-            },
-            icon: Icon(
-              context.watch<ManagmentSomeState>().isGrid
-                  ? Icons.view_agenda_outlined
-                  : Icons.grid_view,
+          Selector<UIStateProvider, bool>(
+            selector: (context, UIStateProvider state) => state.isGrid,
+            builder: (context, isGrid, child) => IconButton(
+              onPressed: () {
+                if (isGrid) {
+                  context.read<UIStateProvider>().toggleGrid();
+                } else {
+                  context.read<UIStateProvider>().toggleGrid();
+                }
+              },
+              icon: Icon(isGrid ? Icons.view_agenda_outlined : Icons.grid_view),
             ),
           ),
           SizedBox(width: 10),
@@ -45,13 +40,18 @@ class ArchivedNotesScreen extends StatelessWidget {
 
       drawer: AppDrawer(currentScreen: AppRoutes.archivedNotesScreen),
 
-      body: notes.isEmpty
-          ? CenterIfNotesEmpty(
-              icon: Icons.note_add_outlined,
-              message: AppLocalizations.of(context)!.noArchivedNotes,
-            )
-          : NotesGridView(notesStatus: "archived"),
-      floatingActionButton: HelperMethods.addNoteButton(context,status: "archived"),
+      body: Consumer<NotesProvider>(
+        builder: (context, notesProv, child) => notesProv.archivedNotes.isEmpty
+            ? CenterIfNotesEmpty(
+                icon: Icons.note_add_outlined,
+                message: AppLocalizations.of(context)!.noArchivedNotes,
+              )
+            : NotesGridView(notes: notesProv.archivedNotes),
+      ),
+      floatingActionButton: HelperMethods.addNoteButton(
+        context,
+        status: "archived",
+      ),
     );
   }
 }

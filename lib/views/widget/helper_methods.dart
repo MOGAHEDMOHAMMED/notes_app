@@ -9,6 +9,7 @@ import '../../models/note_model.dart';
 import '../../providers/notes_provider.dart';
 import '../screens/choose_note_category.dart';
 
+
 class HelperMethods extends StatelessWidget {
   const HelperMethods({super.key});
 

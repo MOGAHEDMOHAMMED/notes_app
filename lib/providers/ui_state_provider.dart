@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ManagmentSomeState extends ChangeNotifier {
+class UIStateProvider extends ChangeNotifier {
   bool _isObscured = true;
   bool currentVisibility() {
     return _isObscured;

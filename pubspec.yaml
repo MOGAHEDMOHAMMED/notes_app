@@ -1,5 +1,5 @@
 name: my_flutter_project
-description: "A new Flutter project."
+description: "Notes App(Dwaen)."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -49,6 +49,7 @@ dependencies:
   google_sign_in: ^6.1.5
   firebase_database: ^12.1.2
   share_plus: any
+  flutter_native_splash: ^2.4.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +74,14 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+flutter_native_splash:
+  color: "#78807D"
+  image: assets/icon/icon.png
+  color_dark: "#78807D"
+  image_dark: assets/icon/icon.png
+  android_12:
+    color: "#78807D"
+    image: assets/icon/icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

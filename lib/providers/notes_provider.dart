@@ -19,8 +19,10 @@ class NotesProvider extends ChangeNotifier {
   bool isLoadingCategory = false;
 
   NotesProvider() {
-    listenToNotes();
-    listenToCategory();
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      listenToNotes();
+      listenToCategory();
+    });
   }
 
   List<NoteModel> get notes => _notes;
@@ -81,7 +83,9 @@ class NotesProvider extends ChangeNotifier {
 
     _categorySubscription?.cancel();
 
-    _notesSubscription = _service.getCategories(user.uid).listen((notesData) {
+    _categorySubscription = _service.getCategories(user.uid).listen((
+      notesData,
+    ) {
       _categories = notesData;
       isLoadingCategory = false;
 
@@ -178,12 +182,12 @@ class NotesProvider extends ChangeNotifier {
       );
       _service.updateCategory(newCategory, user.uid);
       List oldCategoryNotes = categoryNotes(oldCategory.name);
-    
+
       if (oldCategoryNotes.isNotEmpty) {
         for (var note in oldCategoryNotes) {
           await changeNoteCategory(note, newCategory);
         }
-        
+
         notifyListeners();
       }
     } catch (e) {
@@ -248,6 +252,7 @@ class NotesProvider extends ChangeNotifier {
   @override
   void dispose() {
     _notesSubscription?.cancel();
+    _categorySubscription?.cancel();
     super.dispose();
   }
 }

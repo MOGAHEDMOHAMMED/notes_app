@@ -117,7 +117,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateNote => 'Note was updated';
 
   @override
-  String get archivedSuccess => 'شrchived Success';
+  String get archivedSuccess => 'Archived Success';
 
   @override
   String get deletedSuccess => 'Deleted Success';

@@ -317,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @archivedSuccess.
   ///
   /// In en, this message translates to:
-  /// **'شrchived Success'**
+  /// **'Archived Success'**
   String get archivedSuccess;
 
   /// No description provided for @deletedSuccess.

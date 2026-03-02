@@ -18,7 +18,11 @@ class CenterIfNotesEmpty extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(icon, size: 150, color: Colors.amberAccent.withOpacity(0.7)),
+          Icon(
+            icon,
+            size: 150,
+            color: const Color.fromARGB(255, 219, 185, 63).withOpacity(0.7),
+          ),
           const SizedBox(height: 20),
           Text(message),
         ],

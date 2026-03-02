@@ -1,51 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter_project/providers/managment_some_state.dart';
-import 'package:my_flutter_project/providers/notes_provider.dart';
+
+import 'package:my_flutter_project/providers/ui_state_provider.dart';
 import 'package:my_flutter_project/views/widget/helper_methods.dart';
 import 'package:provider/provider.dart';
 import '../../models/note_model.dart';
 import '../../core/routes/app_routes.dart';
 import '../../core/l10n/app_localizations.dart';
 
-// ignore: must_be_immutable
 class NotesGridView extends StatelessWidget {
-  final String notesStatus;
-  List<NoteModel>? categroyNotes;
-  NotesGridView({super.key, required this.notesStatus, this.categroyNotes});
+  final List<NoteModel> notes;
+  const NotesGridView({super.key, required this.notes});
 
   @override
   Widget build(BuildContext context) {
-    final notesProvider = context.watch<NotesProvider>();
-    final List<NoteModel> notes;
-    if (categroyNotes == null) {
-      notes = notesStatus == "active"
-          ? notesProvider.activeNotes
-          : notesStatus == "deleted"
-          ? notesProvider.deletedNotes
-          : notesProvider.archivedNotes;
-    } else {
-      notes = categroyNotes!;
-    }
-    return GridView.builder(
-      padding: const EdgeInsets.all(10),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: context.watch<ManagmentSomeState>().isGrid ? 2 : 1,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        childAspectRatio: context.watch<ManagmentSomeState>().isGrid
-            ? 0.8
-            : 1.3,
+    return Selector<UIStateProvider, bool>(
+      selector: (context, UIStateProvider state) => state.isGrid,
+      builder: (context, isGrid, child) => GridView.builder(
+        padding: const EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: isGrid ? 2 : 1,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+          childAspectRatio: isGrid ? 0.8 : 1.3,
+        ),
+        itemCount: notes.length,
+        itemBuilder: (context, index) {
+          final note = notes[index];
+          return BuildNoteCard(note: note);
+        },
       ),
-      itemCount: notes.length,
-      itemBuilder: (context, index) {
-        final note = notes[index];
-        return _buildNoteCard(context, note);
-      },
     );
   }
+}
 
-  Widget _buildNoteCard(BuildContext context, NoteModel note) {
-    final tr = AppLocalizations.of(context)!;
+class BuildNoteCard extends StatelessWidget {
+  final NoteModel note;
+  const BuildNoteCard({super.key, required this.note});
+
+  @override
+  Widget build(BuildContext context) {
     return Card(
       elevation: 4,
       shadowColor: Colors.black26,
@@ -94,17 +87,17 @@ class NotesGridView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(2),
                 ),
                 child: Text(
-                  note.categoryName ?? '',
-                  style: TextStyle(
+                  note.categoryName != null ? note.categoryName.toString() : '',
+                  style: const TextStyle(
                     // backgroundColor: const Color.fromARGB(255, 215, 207, 207),
                     fontSize: 12,
-                    color: const Color.fromARGB(255, 38, 24, 24),
+                    color: Color.fromARGB(255, 38, 24, 24),
                   ),
                 ),
               ),
               Text(
-                "${tr.lastUpdate} :${note.lastUpdate!.year}/${note.lastUpdate!.month}/${note.lastUpdate!.day}",
-                style: TextStyle(fontSize: 10, color: Colors.grey),
+                "${AppLocalizations.of(context)!.lastUpdate} :${note.lastUpdate!.year}/${note.lastUpdate!.month}/${note.lastUpdate!.day}",
+                style: const TextStyle(fontSize: 10, color: Colors.grey),
               ),
             ],
           ),
