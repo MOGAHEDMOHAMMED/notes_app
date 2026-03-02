@@ -15,3 +15,7 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 ![screen image](screen.png)
+<<<<<<< HEAD
+=======
+<img src="notes_app/screen.png" alt="screen image" width="600">
+>>>>>>> 859631350b7dec923d8f2c316d14f66b05686c8c
