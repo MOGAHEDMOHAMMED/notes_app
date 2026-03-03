@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:my_flutter_project/core/l10n/app_localizations.dart';
-import 'package:my_flutter_project/auth_wrapper.dart' show AuthWrapper;
 import 'package:my_flutter_project/providers/auth_provider.dart';
 import 'package:my_flutter_project/providers/ui_state_provider.dart';
 import 'providers/theme_provider.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_flutter_project/core/routes/route_generator.dart';
 import 'package:my_flutter_project/providers/notes_provider.dart';
 import 'package:my_flutter_project/providers/language_provider.dart';
+import 'package:my_flutter_project/views/screens/splash_screen.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: themeProvider.themeMode,
-          home: const AuthWrapper(),
+          home: const SplashScreen(),
 
           onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         );

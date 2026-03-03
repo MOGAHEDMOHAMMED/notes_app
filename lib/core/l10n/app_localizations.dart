@@ -571,6 +571,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Confirm'**
   String get confirm;
+
+  /// No description provided for @slogan.
+  ///
+  /// In en, this message translates to:
+  /// **'Your safe space in a world full of chaos'**
+  String get slogan;
 }
 
 class _AppLocalizationsDelegate

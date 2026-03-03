@@ -245,4 +245,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get confirm => 'Confirm';
+
+  @override
+  String get slogan => 'Your safe space in a world full of chaos';
 }

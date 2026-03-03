@@ -75,13 +75,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 flutter_native_splash:
-  color: "#78807D"
-  image: assets/icon/icon.png
-  color_dark: "#78807D"
-  image_dark: assets/icon/icon.png
+  color: "#F8F9FA"
+  color_dark: "#0F172A"
   android_12:
-    color: "#78807D"
-    image: assets/icon/icon.png
+    color: "#F8F9FA"
+    color_dark: "#0F172A"
 
   # To add assets to your application, add an assets section, like this:
   # assets:

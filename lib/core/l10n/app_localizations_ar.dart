@@ -245,4 +245,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get confirm => 'موافق';
+
+  @override
+  String get slogan => 'مساحتك الآمنة في عالم مليئ بالفوضى';
 }
