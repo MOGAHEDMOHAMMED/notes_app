@@ -6,6 +6,19 @@ Dawin is a fast, responsive, and intuitive note-taking application built with Fl
 This project was built focusing on clean architecture using **Provider** for state management and **SharedPreferences** for local data storage, serving as a solid and practical foundation for building scalable Flutter applications.
 
 🔗 **[Looking for the newer GetX Version? Click Here](https://github.com/MOGAHEDMOHAMMED/notes_app_with_getx)**
+---
+
+## Some Screens:
+
+<img src="https://github.com/user-attachments/assets/222b0173-3f54-4dad-ae5a-c67cab90bef3" alt="LoginScreen" width="300">
+<img src="https://github.com/user-attachments/assets/fe12bcf8-67d0-4760-8ae7-6c90f9e4dacd" alt="Create Acount Screen" width="300">
+<img src="https://github.com/user-attachments/assets/1e6c39e4-aac0-4cd2-a72b-01268a1e1b0d" alt="logIn With Google" width="300">
+
+<img src="https://github.com/user-attachments/assets/72a5e0d5-5e5b-45ed-9ba8-6f06381b0710" alt="App Drawer" width="300">
+<img src="https://github.com/user-attachments/assets/2f6e8280-4807-420c-b28f-9463af306b0e" alt="App Drawer" width="300">
+<img src="https://github.com/user-attachments/assets/08bf42a7-2525-4fee-9fcf-2b79960bd828" alt="About Developer Screen" width="300">
+
+<img src="https://github.com/user-attachments/assets/ec902a1c-7078-428f-8d19-98502f91ae40" alt="Active Notes Screen(Home)" width="300">
 
 ## Key Features
 * **State Management:** Smooth UI updates and business logic separation using `Provider`.
